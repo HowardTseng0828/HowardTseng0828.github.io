@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>1051. Height Checker (身高檢查)</title>
+    <url>/2024/04/20/1051-height-checker/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in non-decreasing order by height. Let this ordering be represented by the integer array expected where expected[i] is the expected height of the ith student in line.<br>You are given an integer array heights representing the current order that the students are standing in. Each heights[i] is the height of the ith student in line (0-indexed).<br>Return the number of indices where heights[i] !&#x3D; expected[i].</p>
+</blockquote>
+<blockquote>
+<p>一所學校正試圖拍攝所有學生的年度照片。學生被要求按身高遞增的順序單獨排成一行。這種順序由整數陣列 expected 代表，其中 expected[i] 是第 i 名學生在排隊時預期的身高。<br>你會收到一個整數陣列 heights，代表學生當前的排隊順序。每個 heights[i] 是第 i 名學生的身高（從0開始索引）。<br>返回 heights[i] !&#x3D; expected[i] 的索引數量。</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: heights = [1,1,4,2,1,3]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: </span><br><span class="line">heights:  [1,1,4,2,1,3]</span><br><span class="line">expected: [1,1,1,2,3,4]</span><br><span class="line">Indices 2, 4, and 5 do not match.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: heights = [5,1,2,3,4]</span><br><span class="line">Output: 5</span><br><span class="line">Explanation:</span><br><span class="line">heights:  [5,1,2,3,4]</span><br><span class="line">expected: [1,2,3,4,5]</span><br><span class="line">All indices do not match.</span><br></pre></td></tr></table></figure>
+
+<p>Example 3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: heights = [1,2,3,4,5]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation:</span><br><span class="line">heights:  [1,2,3,4,5]</span><br><span class="line">expected: [1,2,3,4,5]</span><br><span class="line">All indices match.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; heights.length &lt;&#x3D; 100</li>
+<li>1 &lt;&#x3D; heights[i] &lt;&#x3D; 100</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">heightChecker</span><span class="params">(<span class="type">int</span>[] heights)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] expected = <span class="keyword">new</span> <span class="title class_">int</span>[heights.length];</span><br><span class="line">        System.arraycopy(heights, <span class="number">0</span>, expected, <span class="number">0</span>, heights.length);</span><br><span class="line">        java.util.Arrays.sort(expected);</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; heights.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (heights[i] != expected[i]) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>1089. Duplicate Zeros (重複零)</title>
+    <url>/2023/05/31/1089-Duplicate-Zeros/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given a fixed-length integer array arr, duplicate each occurrence of zero, shifting the remaining elements to the right.<br>Note that elements beyond the length of the original array are not written. Do the above modifications to the input array in place and do not return anything.</p>
+</blockquote>
+<blockquote>
+<p>複製每個出現的零，將剩餘的值向右移動<br>不能寫入超出原始陣列長度，對原始陣列修改，不返回任何內容。</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [1,0,2,3,0,4,5,0]</span><br><span class="line">Output: [1,0,0,2,3,0,0,4]</span><br><span class="line">Explanation: After calling your function, the input array is modified to: [1,0,0,2,3,0,0,4]</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [1,2,3]</span><br><span class="line">Output: [1,2,3]</span><br><span class="line">Explanation: After calling your function, the input array is modified to: [1,2,3]</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; arr.length &lt;&#x3D; 104</li>
+<li>0 &lt;&#x3D; arr[i] &lt;&#x3D; 9</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">duplicateZeros</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">        Queue&lt;Integer&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">            queue.offer(arr[i]);		<span class="comment">//隊列新增arr[i]</span></span><br><span class="line">            <span class="keyword">if</span>(arr[i] == <span class="number">0</span>)&#123;</span><br><span class="line">                queue.offer(<span class="number">0</span>);		<span class="comment">//若arr[i]==0，則對列新增0</span></span><br><span class="line">			&#125;</span><br><span class="line">			arr[i] = queue.poll();		<span class="comment">//將對列的值放回陣列</span></span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>1299. Replace Elements with Greatest Element on Right Side (替換右邊最大值 最後值為-1)</title>
+    <url>/2023/05/31/1299-Replace-Elements-with-Greatest-Element-on-Right-Side/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an array arr, replace every element in that array with the greatest element among the elements to its right, and replace the last element with -1.<br>After doing so, return the array.</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [17,18,5,4,6,1]</span><br><span class="line">Output: [18,6,6,6,1,-1]</span><br><span class="line">Explanation: </span><br><span class="line">- index 0 --&gt; the greatest element to the right of index 0 is index 1 (18).</span><br><span class="line">- index 1 --&gt; the greatest element to the right of index 1 is index 4 (6).</span><br><span class="line">- index 2 --&gt; the greatest element to the right of index 2 is index 4 (6).</span><br><span class="line">- index 3 --&gt; the greatest element to the right of index 3 is index 4 (6).</span><br><span class="line">- index 4 --&gt; the greatest element to the right of index 4 is index 5 (1).</span><br><span class="line">- index 5 --&gt; there are no elements to the right of index 5, so we put -1.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [400]</span><br><span class="line">Output: [-1]</span><br><span class="line">Explanation: There are no elements to the right of index 0.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; arr.length &lt;&#x3D; 104</li>
+<li>1 &lt;&#x3D; arr[i] &lt;&#x3D; 105</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] replaceElements(<span class="type">int</span>[] arr) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(arr.length &lt;= <span class="number">1</span>) arr[arr.length-<span class="number">1</span>]= -<span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=arr.length-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[i];</span><br><span class="line">            arr[i]=arr[arr.length-<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(arr[arr.length-<span class="number">1</span>] &lt; temp)&#123;</span><br><span class="line">                arr[arr.length-<span class="number">1</span>]=temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        arr[arr.length-<span class="number">1</span>]= -<span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>1295. Find Numbers with Even Number of Digits (找出字數量為偶數的數量)</title>
+    <url>/2023/05/31/1295-Find-Numbers-with-Even-Number-of-Digits/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an array nums of integers, return how many of them contain an even number of digits.</p>
+</blockquote>
+<blockquote>
+<p>返回陣列中值字數量為偶數的數量</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [12,345,2,6,7896]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: </span><br><span class="line">12 contains 2 digits (even number of digits). </span><br><span class="line">345 contains 3 digits (odd number of digits). </span><br><span class="line">2 contains 1 digit (odd number of digits). </span><br><span class="line">6 contains 1 digit (odd number of digits). </span><br><span class="line">7896 contains 4 digits (even number of digits). </span><br><span class="line">Therefore only 12 and 7896 contain an even number of digits.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [555,901,482,1771]</span><br><span class="line">Output: 1 </span><br><span class="line">Explanation: </span><br><span class="line">Only 1771 contains an even number of digits.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 500</li>
+<li>1 &lt;&#x3D; nums[i] &lt;&#x3D; 105</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findNumbers</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="number">0</span>;		<span class="comment">//答案數</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">digit</span> <span class="operator">=</span> <span class="number">0</span>;		<span class="comment">//字數量</span></span><br><span class="line">            <span class="keyword">while</span>(nums[i] != <span class="number">0</span>)&#123;</span><br><span class="line">                nums[i] /= <span class="number">10</span>;</span><br><span class="line">                ++digit;		<span class="comment">//若num[i]不等於0，則除以10且字數量+1</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (digit%<span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">			ans++;		<span class="comment">//若字數量除以2且商為0，則答案數+1</span></span><br><span class="line">			&#125;   </span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">return</span> ans;		<span class="comment">//回傳答案數</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>1346. Check If N and Its Double Exist (檢查是否滿足)</title>
+    <url>/2023/05/31/1346-Check-If-N-and-Its-Double-Exist/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an array arr of integers, check if there exist two indices i and j such that :</p>
+</blockquote>
+<ul>
+<li>i !&#x3D; j</li>
+<li>0 &lt;&#x3D; i, j &lt; arr.length</li>
+<li>arr[i] &#x3D;&#x3D; 2 * arr[j]</li>
+<li><span id="more"></span></li>
+</ul>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [10,2,5,3]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: For i = 0 and j = 2, arr[i] == 10 == 2 * 5 == 2 * arr[j]</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [3,1,7,11]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: There is no i and j that satisfy the conditions.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>2 &lt;&#x3D; arr.length &lt;&#x3D; 500</li>
+<li>-103 &lt;&#x3D; arr[i] &lt;&#x3D; 103</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">checkIfExist</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;arr.length;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i !=j &amp;&amp; arr[i] == <span class="number">2</span> * arr[j])&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>26. Remove Duplicates from Sorted Array (刪除陣列中重複的值)</title>
+    <url>/2023/05/31/26-Remove-Duplicates-from-Sorted-Array/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.<br>Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:</p>
+</blockquote>
+<ul>
+<li><p>Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.</p>
+</li>
+<li><p>Return k.</p>
+<span id="more"></span></li>
+</ul>
+<hr>
+<blockquote>
+<p>Custom Judge:</p>
+</blockquote>
+<blockquote>
+<p>The judge will test your solution with the following code:</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>[] nums = [...]; <span class="comment">// Input array</span></span><br><span class="line"><span class="type">int</span>[] expectedNums = [...]; <span class="comment">// The expected answer with correct length</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> removeDuplicates(nums); <span class="comment">// Calls your implementation</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> k == expectedNums.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">    <span class="keyword">assert</span> nums[i] == expectedNums[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>If all assertions pass, then your solution will be accepted.</p>
+</blockquote>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [1,1,2]</span><br><span class="line">Output: 2, nums = [1,2,_]</span><br><span class="line">Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.</span><br><span class="line">It does not matter what you leave beyond the returned k (hence they are underscores).</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [0,0,1,1,1,2,2,3,3,4]</span><br><span class="line">Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]</span><br><span class="line">Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.</span><br><span class="line">It does not matter what you leave beyond the returned k (hence they are underscores).</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 3 * 104</li>
+<li>-100 &lt;&#x3D; nums[i] &lt;&#x3D; 100</li>
+<li>nums is sorted in non-decreasing order.</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> nums.length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>; i&lt;nums.length;i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[ans]) &#123;</span><br><span class="line">                ans++;</span><br><span class="line">                nums[ans] = nums[i];		<span class="comment">//若nums[i]!=nums[ans]，則ans+1，且nums[ans]=nums[i]</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>27. Remove Element (刪除陣列中的值)</title>
+    <url>/2023/05/31/27-Remove-Element/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.<br>Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:</p>
+</blockquote>
+<ul>
+<li><p>Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.</p>
+</li>
+<li><p>Return k.</p>
+<span id="more"></span></li>
+</ul>
+<hr>
+<blockquote>
+<p>Custom Judge:</p>
+</blockquote>
+<blockquote>
+<p>The judge will test your solution with the following code:</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>[] nums = [...]; <span class="comment">// Input array</span></span><br><span class="line"><span class="type">int</span> <span class="variable">val</span> <span class="operator">=</span> ...; <span class="comment">// Value to remove</span></span><br><span class="line"><span class="type">int</span>[] expectedNums = [...]; <span class="comment">// The expected answer with correct length.</span></span><br><span class="line">                            <span class="comment">// It is sorted with no values equaling val.</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> removeElement(nums, val); <span class="comment">// Calls your implementation</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> k == expectedNums.length;</span><br><span class="line">sort(nums, <span class="number">0</span>, k); <span class="comment">// Sort the first k elements of nums</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; actualLength; i++) &#123;</span><br><span class="line">    <span class="keyword">assert</span> nums[i] == expectedNums[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>If all assertions pass, then your solution will be accepted.</p>
+</blockquote>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3</span><br><span class="line">Output: [1,2,2,3,5,6]</span><br><span class="line">Explanation: The arrays we are merging are [1,2,3] and [2,5,6].</span><br><span class="line">The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [1], m = 1, nums2 = [], n = 0</span><br><span class="line">Output: [1]</span><br><span class="line">Explanation: The arrays we are merging are [1] and [].</span><br><span class="line">The result of the merge is [1].</span><br></pre></td></tr></table></figure>
+
+<p>Example 3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [0], m = 0, nums2 = [1], n = 1</span><br><span class="line">Output: [1]</span><br><span class="line">Explanation: The arrays we are merging are [] and [1].</span><br><span class="line">The result of the merge is [1].</span><br><span class="line">Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>0 &lt;&#x3D; nums.length &lt;&#x3D; 100</li>
+<li>0 &lt;&#x3D; nums[i] &lt;&#x3D; 50</li>
+<li>0 &lt;&#x3D; val &lt;&#x3D; 100</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">null</span> != nums &amp;&amp; nums.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i] != val)&#123;</span><br><span class="line">                    nums[index] = nums[i];		<span class="comment">//若nums[i]!=val，則nums[index] = nums[i]</span></span><br><span class="line">                    index++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>448. Find All Numbers Disappeared in an Array (陣列中找到所有消失的數字)</title>
+    <url>/2024/04/20/448-Find-All-Numbers-Disappeared-in-an-Array/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.</p>
+</blockquote>
+<blockquote>
+<p>給定一個包含n個整數的陣列nums，其中nums[i]的範圍為[1, n]，返回一個陣列，其中包含範圍[1, n]內未在nums中出現的所有整數。</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [4,3,2,7,8,2,3,1]</span><br><span class="line">Output: [5,6]</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [1,1]</span><br><span class="line">Output: [2]</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>n &#x3D;&#x3D; nums.length</li>
+<li>1 &lt;&#x3D; n &lt;&#x3D; 105</li>
+<li>1 &lt;&#x3D; nums[i] &lt;&#x3D; n</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findDisappearedNumbers</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        List&lt;Integer&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Math.abs(nums[i]) - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[index] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                nums[index] = -nums[index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                result.add(i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>283. Move Zeroes (移動0)</title>
+    <url>/2023/05/31/283-Move-Zeroes/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums, move all 0’s to the end of it while maintaining the relative order of the non-zero elements.<br>Note that you must do this in-place without making a copy of the array.</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [0,1,0,3,12]</span><br><span class="line">Output: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [0]</span><br><span class="line">Output: [0]</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 104</li>
+<li>-231 &lt;&#x3D; nums[i] &lt;&#x3D; 231 - 1</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) nums[index++] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (index &lt; nums.length) &#123;</span><br><span class="line">            nums[index++] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>414.Third Maximum Number (第三最大數)</title>
+    <url>/2024/04/20/414-Third-Maximum-Number/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.</p>
+</blockquote>
+<blockquote>
+<p>給定一個整數陣列nums，返回這個陣列中的第三個不同的最大數字。如果第三個最大數字不存在，則返回最大數字。</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [3,2,1]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation:</span><br><span class="line">The first distinct maximum is 3.</span><br><span class="line">The second distinct maximum is 2.</span><br><span class="line">The third distinct maximum is 1.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [1,2]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation:</span><br><span class="line">The first distinct maximum is 2.</span><br><span class="line">The second distinct maximum is 1.</span><br><span class="line">The third distinct maximum does not exist, so the maximum (2) is returned instead.</span><br></pre></td></tr></table></figure>
+
+<p>Example 3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [2,2,3,1]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation:</span><br><span class="line">The first distinct maximum is 3.</span><br><span class="line">The second distinct maximum is 2 (both 2&#x27;s are counted together since they have the same value).</span><br><span class="line">The third distinct maximum is 1.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 104</li>
+<li>-231 &lt;&#x3D; nums[i] &lt;&#x3D; 231 - 1</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">thirdMax</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">firstMax</span> <span class="operator">=</span> Long.MIN_VALUE;</span><br><span class="line">        <span class="type">long</span> <span class="variable">secondMax</span> <span class="operator">=</span> Long.MIN_VALUE;</span><br><span class="line">        <span class="type">long</span> <span class="variable">thirdMax</span> <span class="operator">=</span> Long.MIN_VALUE;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">            <span class="keyword">if</span> (num &gt; firstMax) &#123;</span><br><span class="line">                thirdMax = secondMax;</span><br><span class="line">                secondMax = firstMax;</span><br><span class="line">                firstMax = num;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; firstMax &amp;&amp; num &gt; secondMax) &#123;</span><br><span class="line">                thirdMax = secondMax;</span><br><span class="line">                secondMax = num;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; secondMax &amp;&amp; num &gt; thirdMax) &#123;</span><br><span class="line">                thirdMax = num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (thirdMax != Long.MIN_VALUE) &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="type">int</span>) thirdMax;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (<span class="type">int</span>) firstMax;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>485. Max Consecutive Ones (連續出現最多次數的1)</title>
+    <url>/2023/05/31/485-Max-Consecutive-Ones/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given a binary array nums, return the maximum number of consecutive 1’s in the array.</p>
+</blockquote>
+<blockquote>
+<p>返回陣列中連續出現最多次數的1</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [1,1,0,1,1,1]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [1,0,1,1,0,1]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 105</li>
+<li>nums[i] is either 0 or 1.</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findMaxConsecutiveOnes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">tmpNum</span> <span class="operator">=</span> <span class="number">0</span>;		<span class="comment">//暫存數</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">maxNum</span> <span class="operator">=</span> <span class="number">0</span>;		<span class="comment">//最大數</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == <span class="number">1</span>)&#123;</span><br><span class="line">                tmpNum++;		<span class="comment">//若nums[i]的值==1，則暫存數+1</span></span><br><span class="line">                maxNum = Math.max(tmpNum,maxNum);		<span class="comment">//比較兩值並將較大的存進&quot;最大數&quot;</span></span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                tmpNum = <span class="number">0</span>;		<span class="comment">//若nums[i]的值!=1，則暫存數=0</span></span><br><span class="line">			&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxNum;		<span class="comment">//回傳最大數</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>88. Merge Sorted Array (合併排序陣列)</title>
+    <url>/2023/05/31/88-Merge-Sorted-Array/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.<br>Merge nums1 and nums2 into a single array sorted in non-decreasing order.<br>The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.</p>
+</blockquote>
+<blockquote>
+<p>合併兩個陣列，升序排序並儲存進nums1<br>nums1長度為m+n ，nums2長度為n<br>若n的最後一個值為0，則省略0</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3</span><br><span class="line">Output: [1,2,2,3,5,6]</span><br><span class="line">Explanation: The arrays we are merging are [1,2,3] and [2,5,6].</span><br><span class="line">The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [1], m = 1, nums2 = [], n = 0</span><br><span class="line">Output: [1]</span><br><span class="line">Explanation: The arrays we are merging are [1] and [].</span><br><span class="line">The result of the merge is [1].</span><br></pre></td></tr></table></figure>
+
+<p>Example 3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums1 = [0], m = 0, nums2 = [1], n = 1</span><br><span class="line">Output: [1]</span><br><span class="line">Explanation: The arrays we are merging are [] and [1].</span><br><span class="line">The result of the merge is [1].</span><br><span class="line">Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>nums1.length &#x3D;&#x3D; m + n</li>
+<li>nums2.length &#x3D;&#x3D; n</li>
+<li>0 &lt;&#x3D; m, n &lt;&#x3D; 200</li>
+<li>1 &lt;&#x3D; m + n &lt;&#x3D; 200</li>
+<li>-109 &lt;&#x3D; nums1[i], nums2[j] &lt;&#x3D; 109</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=m;i&lt;m+n;i++) &#123;</span><br><span class="line">        		nums1[i] = nums2[index++];		<span class="comment">//合併兩個陣列</span></span><br><span class="line">        &#125;</span><br><span class="line">        Arrays.sort(nums1);		<span class="comment">//升序排序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>905. Sort Array By Parity (按偶數排序)</title>
+    <url>/2023/05/31/905-Sort-Array-By-Parity/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers.<br>Return any array that satisfies this condition.</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [3,1,2,4]</span><br><span class="line">Output: [2,4,3,1]</span><br><span class="line">Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [0]</span><br><span class="line">Output: [0]</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 5000</li>
+<li>0 &lt;&#x3D; nums[i] &lt;&#x3D; 5000</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] sortArrayByParity(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>; </span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> nums.length - <span class="number">1</span>; </span><br><span class="line">        <span class="keyword">while</span>(left &lt; right ) </span><br><span class="line">        &#123; </span><br><span class="line">            <span class="keyword">if</span>(nums[left] % <span class="number">2</span> != <span class="number">0</span>) </span><br><span class="line">            &#123; </span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[left];</span><br><span class="line">                nums[left] = nums[right];</span><br><span class="line">                nums[right] = temp;</span><br><span class="line">                right--;</span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">            &#123; </span><br><span class="line">                left++; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>977. Squares of a Sorted Array (排序陣列中的值平方)</title>
+    <url>/2023/05/31/977-Squares-of-a-Sorted-Array/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [-4,-1,0,3,10]</span><br><span class="line">Output: [0,1,9,16,100]</span><br><span class="line">Explanation: After squaring, the array becomes [16,1,0,9,100].</span><br><span class="line">After sorting, it becomes [0,1,9,16,100].</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: nums = [-7,-3,2,3,11]</span><br><span class="line">Output: [4,9,9,49,121]</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; nums.length &lt;&#x3D; 104</li>
+<li>-104 &lt;&#x3D; nums[i] &lt;&#x3D; 104</li>
+<li>nums is sorted in non-decreasing order.</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] sortedSquares(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">        <span class="type">int</span> tmpNum;</span><br><span class="line">        <span class="type">int</span>[] ans = <span class="keyword">new</span> <span class="title class_">int</span>[nums.length];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            tmpNum = nums[i]*nums[i];</span><br><span class="line">            ans[i] = tmpNum;</span><br><span class="line">        &#125;</span><br><span class="line">        Arrays.sort(ans);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>941. Valid Mountain Array (找出陣列中是否有山)</title>
+    <url>/2023/05/31/941-Valid-Mountain-Array/</url>
+    <content><![CDATA[<h1 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h1><blockquote>
+<p>Given an array of integers arr, return true if and only if it is a valid mountain array.<br>Recall that arr is a mountain array if and only if:</p>
+</blockquote>
+<ul>
+<li>arr.length &gt;&#x3D; 3</li>
+<li>There exists some i with 0 &lt; i &lt; arr.length - 1 such that:<ul>
+<li>arr[0] &lt; arr[1] &lt; … &lt; arr[i - 1] &lt; arr[i] </li>
+<li>arr[i] &gt; arr[i + 1] &gt; … &gt; arr[arr.length - 1]</li>
+</ul>
+</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://imgur.com/wVEVmfA.jpg"><br><span id="more"></span></h2><p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [2,1]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [3,5,5]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: arr = [0,3,2,1]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+
+<p>Constraints:</p>
+<ul>
+<li>1 &lt;&#x3D; arr.length &lt;&#x3D; 104</li>
+<li>0 &lt;&#x3D; arr[i] &lt;&#x3D; 104</li>
+</ul>
+<hr>
+<h1 id="我的解題"><a href="#我的解題" class="headerlink" title="我的解題"></a>我的解題</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">validMountainArray</span><span class="params">(<span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(arr.length &lt; <span class="number">3</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(;i&lt;arr.length-<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[i] &gt; arr[i+<span class="number">1</span>])&#123;</span><br><span class="line">                   i++;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">if</span>(arr[i] == arr[i+<span class="number">1</span>])&#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">               &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(;i&lt;arr.length;i++)&#123;</span><br><span class="line">               <span class="keyword">if</span>(arr[i-<span class="number">1</span>] &lt;= arr[i])&#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>LeetCode Explore - Arrays 101 (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>資料抽象化與封裝化 (Data Abstraction &amp; Encapulation)</title>
+    <url>/2024/05/15/Abstraction-Encapulation/</url>
+    <content><![CDATA[<h1 id="資料封裝化-data-abstraction"><a href="#資料封裝化-data-abstraction" class="headerlink" title="資料封裝化(data abstraction)"></a>資料封裝化(data abstraction)</h1><p>資料封裝化或資訊隱藏(information hiding) 是指 <strong>將資料物件的內部程式碼之細節與外界隔絕</strong>。</p>
+<h1 id="資料抽象化-data-encapulation"><a href="#資料抽象化-data-encapulation" class="headerlink" title="資料抽象化(data encapulation)"></a>資料抽象化(data encapulation)</h1><p>資料抽象化是 <strong>將一個資料物件的規格與它內部實作分開</strong>。</p>
+<h1 id="資料型態-data-type"><a href="#資料型態-data-type" class="headerlink" title="資料型態(data type)"></a>資料型態(data type)</h1><p>資料型態是 <strong>一些物件以及一組處理這些物件的運算所組成的集合</strong>。</p>
+<h1 id="抽象化資料型態-abstract-data-type-ADT"><a href="#抽象化資料型態-abstract-data-type-ADT" class="headerlink" title="抽象化資料型態(abstract data type. ADT)"></a>抽象化資料型態(abstract data type. ADT)</h1><p>組織過的資料型態，<strong>得以將物件、物件之運算兩者的規格，跟物件的實際表示法、運算的實作方法分開</strong>。</p>
+<span id="more"></span>
+
+<h1 id="ADT-exercise"><a href="#ADT-exercise" class="headerlink" title="ADT exercise"></a>ADT exercise</h1><ol>
+<li>在 NaturalNumber ADT 裡面增加下列運算: Predecessor、IsGreat、Multiply、Divide<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ADT NaturalNumber is</span><br><span class="line">	object:從零開始到電腦上的最大整數(MAXINT)為止所形成的一串</span><br><span class="line">	有順序的整數子範圍</span><br><span class="line">	fuctions:對所有的x,y∈NaturalNumber;TRUE,FALSE∈Boolean</span><br><span class="line">	並且+、-、&lt;、==、以及=是一班的整數運算子</span><br><span class="line">		</span><br><span class="line">		<span class="built_in">zero</span>():NaturalNumber ::= <span class="number">0</span></span><br><span class="line">		<span class="built_in">IsZero</span>(x):Boolean ::=</span><br><span class="line">		<span class="keyword">if</span>(x == <span class="number">0</span>)IsZero = <span class="literal">true</span></span><br><span class="line">			<span class="keyword">else</span> IsZero = <span class="literal">false</span></span><br><span class="line">			</span><br><span class="line">		<span class="built_in">Add</span>(x,y):NaturalNumber ::=</span><br><span class="line">		<span class="keyword">if</span>( x + y &lt;= MAXINT) Add = x+y</span><br><span class="line">			<span class="keyword">else</span> Add = MAXINT</span><br><span class="line">			</span><br><span class="line">		<span class="built_in">Equal</span>(x,y):Boolean ::=</span><br><span class="line">		<span class="keyword">if</span>(x == y) Equal=TRUE</span><br><span class="line">			<span class="keyword">else</span> Equal=FALSE</span><br><span class="line">			</span><br><span class="line">		<span class="built_in">Succesor</span>(x):NaturalNumber ::=</span><br><span class="line">		<span class="keyword">if</span>(x == MAXINT) Succesor = x</span><br><span class="line">			<span class="keyword">else</span> Succesor = x + <span class="number">1</span></span><br><span class="line">			</span><br><span class="line">		<span class="built_in">Subtract</span>(x,y):NaturalNumber ::=</span><br><span class="line">		<span class="keyword">if</span>(x &lt; y) Subtract = <span class="number">0</span></span><br><span class="line">			<span class="keyword">else</span> Subtract = x - y</span><br><span class="line">			</span><br><span class="line">		<span class="comment">//Predecessor</span></span><br><span class="line">		<span class="built_in">Predecessor</span>(x):NaturalNumber ::=</span><br><span class="line">		<span class="keyword">if</span>(x &lt; <span class="number">0</span>) <span class="keyword">return</span> ERROR</span><br><span class="line">		<span class="keyword">if</span>(x == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">		<span class="keyword">return</span> x - <span class="number">1</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//IsGreater</span></span><br><span class="line">		<span class="built_in">IsGreater</span>(x,y):Boolean ::=</span><br><span class="line">		<span class="keyword">if</span> ((x -y) &lt; <span class="number">0</span>) <span class="keyword">return</span> ERROR</span><br><span class="line">		<span class="keyword">if</span> ((x -y) == <span class="number">0</span>) <span class="keyword">return</span> FALSE</span><br><span class="line">		<span class="keyword">return</span> TRUE</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Multiply</span></span><br><span class="line">		<span class="built_in">Multiply</span>(x,y):NaturalNumber ::=</span><br><span class="line">			<span class="keyword">if</span>(x == <span class="number">0</span> <span class="keyword">or</span> y == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">if</span>(MAXINT / x &lt; y) <span class="keyword">return</span> MAXINT</span><br><span class="line">			<span class="keyword">return</span> x * y</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Divide</span></span><br><span class="line">		<span class="built_in">Divide</span>(x,y):NaturalNumber ::=</span><br><span class="line">			<span class="keyword">if</span>(y == <span class="number">0</span>) <span class="keyword">return</span> ERROR</span><br><span class="line">			<span class="keyword">if</span>(x == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">if</span>(x &lt; y) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">return</span> x / y</span><br></pre></td></tr></table></figure></li>
+<li>創造一個 ADT，Set。使用標準的數學定義並且包含下列的運算 : 新生一個集合(Create)、插入(Insert)、移除(Remove)、屬於(IsIn)、聯集(Union)、交集(Intersection)、相減(Difference)<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ADT Set is</span><br><span class="line">	object:具有獨特元素且沒有順序的集合</span><br><span class="line">	functions:對所有的x,y∈Set;e∈Element;TRUE,FALSE∈Boolean</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 新建一個空集合</span></span><br><span class="line">		<span class="built_in">Create</span>(): Set ::= </span><br><span class="line">			Create an empty set <span class="keyword">and</span> <span class="keyword">return</span> it</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 插入元素到集合</span></span><br><span class="line">		<span class="built_in">Insert</span>(x, e): Set ::= </span><br><span class="line">			Add element e to set x <span class="keyword">and</span> <span class="keyword">return</span> the updated set</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 從集合中移除元素</span></span><br><span class="line">		<span class="built_in">Remove</span>(x, e): Set ::= </span><br><span class="line">			Remove element e from set x <span class="keyword">and</span> <span class="keyword">return</span> the updated set</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 檢查元素是否屬於集合</span></span><br><span class="line">		<span class="built_in">IsIn</span>(x, e): Boolean ::= </span><br><span class="line">			<span class="keyword">if</span> e is in x, <span class="keyword">return</span> TRUE</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">return</span> FALSE</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 計算兩個集合的聯集</span></span><br><span class="line">		<span class="built_in">Union</span>(x, y): Set ::= </span><br><span class="line">			Create a <span class="keyword">new</span> set that contains all elements from x <span class="keyword">and</span> T <span class="keyword">and</span> <span class="keyword">return</span> it</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 計算兩個集合的交集</span></span><br><span class="line">		<span class="built_in">Intersection</span>(x, y): Set ::= </span><br><span class="line">			Create a <span class="keyword">new</span> set that contains elements present in both x <span class="keyword">and</span> T <span class="keyword">and</span> <span class="keyword">return</span> it</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 計算兩個集合的差集</span></span><br><span class="line">		<span class="built_in">Difference</span>(x, y): Set ::= </span><br><span class="line">			Create a <span class="keyword">new</span> set that contains elements in x but <span class="keyword">not</span> in T <span class="keyword">and</span> <span class="keyword">return</span> it</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>創造一個 ADT，Bag。在數學上bag跟集合(set)很相似，但是bag可以包含重複的元素。至少必須包括下列的運算 : 新生一個bag(Crete)、插入(Insert)、刪除(Remove)、屬於(IsIn)<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ADT Bag is</span><br><span class="line">	object:具有獨特元素及重複元素的集合</span><br><span class="line">	functions:對所有的x,y∈Bag;e∈Element;TRUE,FALSE∈Boolean</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 新建一個空的 Bag</span></span><br><span class="line">		<span class="built_in">Create</span>(): Bag ::= </span><br><span class="line">			Create an empty bag <span class="keyword">and</span> <span class="keyword">return</span> it</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 插入元素到 Bag</span></span><br><span class="line">		<span class="built_in">Insert</span>(x, e): Bag ::= </span><br><span class="line">			Add element e to bag x <span class="keyword">and</span> <span class="keyword">return</span> the updated bag</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 從 Bag 中刪除元素</span></span><br><span class="line">		<span class="built_in">Remove</span>(x, e): Bag ::= </span><br><span class="line">			Remove one occurrence of element e from bag x <span class="keyword">and</span> <span class="keyword">return</span> the updated <span class="built_in">bag</span></span><br><span class="line">			(<span class="keyword">if</span> e is <span class="keyword">not</span> in x, <span class="keyword">return</span> x unchanged)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 檢查元素是否屬於 Bag</span></span><br><span class="line">		<span class="built_in">IsIn</span>(x, e): Boolean ::= </span><br><span class="line">			<span class="keyword">if</span> e is in x, <span class="keyword">return</span> TRUE</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">return</span> FALSE</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+]]></content>
+      <categories>
+        <category>Fundamentals of Data Structures in C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ByteScript 更新日誌 - 版本 0.2</title>
+    <url>/2023/06/26/ByteScript-log-0-1/</url>
+    <content><![CDATA[<h1 id="版本-0-2"><a href="#版本-0-2" class="headerlink" title="版本 0.2"></a>版本 0.2</h1><p>我們很高興為 ByteScript 帶來新的更新，版本號為 0.2。在這個版本中，我們努力改進了使用者體驗並修復了一些問題。以下是更新的詳細內容：</p>
+<h2 id="新功能"><a href="#新功能" class="headerlink" title="新功能"></a>新功能</h2><ul>
+<li>Youtube 模糊搜尋：現在您可以進行模糊搜尋，系統將提供 10 筆資料供您選擇。</li>
+</ul>
+<p><img src="https://imgur.com/4Vc0LTt.jpg"></p>
+<span id="more"></span>
+<h2 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h2><ul>
+<li>機器人離開後，歌曲將轉變成播放紀錄中。</li>
+</ul>
+<ul>
+<li>修正一拖拉庫的錯誤。</li>
+</ul>
+<h2 id="優化"><a href="#優化" class="headerlink" title="優化"></a>優化</h2><ul>
+<li>對系統架構進行了一些調整和改進。</li>
+</ul>
+<p>我們希望這個更新能讓您在使用 ByteScript 時獲得更好的體驗。如果您有任何回饋或建議，請隨時與我們聯繫。感謝您的支持！</p>
+<p>最後更新日期：2023 年 6 月 21 日</p>
+<p><a href="https://discord.com/oauth2/authorize?client_id=1157318261931782216&permissions=161890823216&scope=applications.commands%20bot">ByteScript 邀請連結</a></p>
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>ByteScript Update Log</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ByteScript 更新日誌 - 版本 1.0</title>
+    <url>/2023/06/26/ByteScript-log-1-0/</url>
+    <content><![CDATA[<h1 id="版本-1-0"><a href="#版本-1-0" class="headerlink" title="版本 1.0"></a>版本 1.0</h1><p>我們很高興為 ByteScript 帶來新的更新，版本號為 1.0。在這個版本中，我們努力改進了使用者體驗並修復了一些問題。以下是更新的詳細內容：</p>
+<h2 id="新功能"><a href="#新功能" class="headerlink" title="新功能"></a>新功能</h2><ul>
+<li>Spotify 單曲：您將能夠直接播放 Spotify 上的單曲。</li>
+</ul>
+<ul>
+<li>Spotify 播放清單功能：同樣地，您將能夠直接播放 Spotify 上的播放清單。</li>
+</ul>
+<ul>
+<li>Spotify 專輯功能：您將能夠直接播放 Spotify 上的專輯。</li>
+</ul>
+<p><img src="https://imgur.com/W9u66as.jpg"></p>
+<span id="more"></span>
+<h2 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h2><ul>
+<li>移除 大部分斜線指令 (簡單化使用者操作)<ul>
+<li>說明: 目前僅提供 &#x2F;play 和 &#x2F;skip</li>
+<li>&#x2F;play 用於輸入Youtube、Spotify 網址或字串來進行播放音樂.</li>
+<li>&#x2F;skip 跳過目前播放音樂。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://imgur.com/fiVXpUx.jpg"></p>
+<ul>
+<li>修正一拖拉庫的錯誤。</li>
+</ul>
+<p>我們希望這個更新能讓您在使用 ByteScript 時獲得更好的體驗。如果您有任何回饋或建議，請隨時與我們聯繫。感謝您的支持！</p>
+<p>最後更新日期：2023 年 6 月 22 日</p>
+<p><a href="https://discord.com/oauth2/authorize?client_id=1157318261931782216&permissions=161890823216&scope=applications.commands%20bot">ByteScript 邀請連結</a></p>
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>ByteScript Update Log</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>ByteScript 更新日誌 - 版本 0.1</title>
+    <url>/2023/06/26/ByteScript-log-0-2/</url>
+    <content><![CDATA[<h1 id="版本-0-1"><a href="#版本-0-1" class="headerlink" title="版本 0.1"></a>版本 0.1</h1><p>我們很高興為 ByteScript 帶來新的更新，版本號為 0.1。在這個版本中，我們努力改進了使用者體驗並修復了一些問題。以下是更新的詳細內容：</p>
+<h2 id="新功能"><a href="#新功能" class="headerlink" title="新功能"></a>新功能</h2><ul>
+<li>「暫停播放&#x2F;恢復播放」按鈕<ul>
+<li>說明: 透過一個按鈕來控制音樂的暫停和恢復播放或方便地切換到下一首歌曲。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>「下一首」按鈕<ul>
+<li>說明: 透過一個按鈕來控制音樂的暫停和恢復播放或方便地切換到下一首歌曲。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>「播放清單」和「刪除播放清單」按鈕<ul>
+<li>說明: 訪問播放清單和刪除整個播放清單內容。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>「離開」按鈕<ul>
+<li>說明: 讓機器人刪除播放清單且結束音樂並離開頻道。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://imgur.com/GqpkOD8.jpg"></p>
+<span id="more"></span>
+<h2 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h2><ul>
+<li>當播放結束時，標題將變更為「歷史播放紀錄 📋」並縮小嵌入訊息，更準確地反映了功能的用途。</li>
+</ul>
+<p><img src="https://imgur.com/fawPQz9.jpg"></p>
+<ul>
+<li>當音樂暫停時，標題將變更為「已暫停播放 ⏸」，提供了更清晰的提示。</li>
+</ul>
+<p><img src="https://imgur.com/HTqA4S8.jpg"></p>
+<ul>
+<li><p>「播放清單」將於顯示十秒後自動消失。</p>
+</li>
+<li><p>提高了應用程式的穩定性和可靠性。</p>
+</li>
+</ul>
+<blockquote>
+<p>我們希望這個更新能讓您在使用 ByteScript 時獲得更好的體驗。如果您有任何回饋或建議，請隨時與我們聯繫。感謝您的支持！</p>
+</blockquote>
+<p>最後更新日期：2023 年 6 月 7 日</p>
+<p><a href="https://discord.com/oauth2/authorize?client_id=1157318261931782216&permissions=161890823216&scope=applications.commands%20bot">ByteScript 邀請連結</a></p>
+<hr>
+<!-- flag of hidden posts -->]]></content>
+      <categories>
+        <category>ByteScript Update Log</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++ 基本概念</title>
+    <url>/2024/05/15/C++/</url>
+    <content><![CDATA[<h1 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a>介紹</h1><p>C 和 C++ 有許多共同的特色，並且 <strong>改良C 的資料抽象化與繼承</strong>。</p>
+<h1 id="C-有效範圍"><a href="#C-有效範圍" class="headerlink" title="C++ 有效範圍"></a>C++ 有效範圍</h1><ul>
+<li><p>檔案的有效範圍<br>不是在函式定義、類別定義、名稱空間裡出現的宣告，都屬於此範圍。</p>
+</li>
+<li><p>名稱空間的有效範圍<br><strong>標準資料庫(standard-library)</strong> 定義在一個 <em><strong>std</strong></em> 的名稱空間裡。</p>
+</li>
+<li><p>區域有效範圍<br>在 <em><strong>區域 {}</strong></em> 內所宣告的名稱有效範圍僅止於此區塊。</p>
+</li>
+<li><p>類別有效範圍<br>類別相關定義的宣告就屬於該類別的有效範圍。</p>
+</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="C-資料宣告"><a href="#C-資料宣告" class="headerlink" title="C++ 資料宣告"></a>C++ 資料宣告</h1><ul>
+<li><p>常數值(constant)<br>包含5、a、4.3這樣的文字(literal)。</p>
+</li>
+<li><p>變數(variables)<br>這是資料型態的實例，<strong>程式執行時隨時都能改變其值</strong>。</p>
+</li>
+<li><p>常數變數(constant variables)<br>無法在使用期間改變其值，必須初始化(initialized)。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> MAX = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列舉類型(enumeration types)<br>藉由給定列舉類型一個名字來創造新的資料型態</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">semester</span>&#123;SUMMER,FALL,SPRING&#125;;</span><br></pre></td></tr></table></figure>
+<p>SUMMER , FALL , SPRING 為 semeter 型態的常數。內定值分別為 0 、 1 、 2 。</p>
+</li>
+<li><p>指標(pointer)<br>存取物件記憶體位址</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> i = <span class="number">25</span>:</span><br><span class="line"><span class="type">int</span> *np;</span><br><span class="line">np = &amp;i;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="C-exception-exercise"><a href="#C-exception-exercise" class="headerlink" title="C++ exception exercise"></a>C++ exception exercise</h1><p>1.修改程式讓它丟出一個型態為 int 的例外。如果 a 、 b 、 c 都小於 0 的話，那麼丟出的例外值應該是 1 ；如果這三個數都等於 0 的話，那麼丟出的值為 2 。如果以上的狀況不滿足，就不丟出任何例外。寫一個main函式來利用你改過的程式碼，有例外被丟出就捕捉它，並且根據丟出來的例外值輸出一個適當的訊息。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">DivZero</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &lt; <span class="number">0</span> || b &lt; <span class="number">0</span> || c &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (a == <span class="number">0</span> || b == <span class="number">0</span> || c == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">return</span> a + b * c + b / c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">DivZero</span>(<span class="number">2</span>, <span class="number">0</span>, <span class="number">4</span>) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (<span class="type">int</span> e) &#123;</span><br><span class="line">        <span class="keyword">if</span> (e == <span class="number">1</span>)</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;All parameters can&#x27;t be &lt; 0&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">if</span> (e == <span class="number">2</span>)</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;All parameters should be &gt; 0&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.寫一個 C++ 的函式來回傳一個整數陣列 a 和前 n 項和。在 n &lt; 0 的情況下你的函式應該要丟出一個例外。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">sumOfFirstN</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span> a[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="string">&quot;parameters can&#x27;t be &lt; 0&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        x += a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> a[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">    <span class="type">int</span> n = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="built_in">sumOfFirstN</span>(n, a) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span>(<span class="type">const</span> <span class="type">char</span>* e)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; e &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+]]></content>
+      <categories>
+        <category>Fundamentals of Data Structures in C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Discord Bot - ep.1 (建立Discord機器人)</title>
+    <url>/2023/06/02/Discord-Bot-ep1/</url>
+    <content><![CDATA[<h1 id="Discord-機器人範例圖片"><a href="#Discord-機器人範例圖片" class="headerlink" title="Discord 機器人範例圖片"></a>Discord 機器人範例圖片</h1><p><img src="https://imgur.com/HkfDvEW.jpg"></p>
+<span id="more"></span>
+<h1 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業</h1><h2 id="安裝-Node-js®"><a href="#安裝-Node-js®" class="headerlink" title="安裝 Node.js®"></a>安裝 Node.js®</h2><p>請先至 <a href="https://nodejs.org/en/">Node.js®</a> 下載並安裝</p>
+<p>安裝後，開啟 <code>CLI介面</code> 並輸入</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">node -v &amp;&amp; npm -v</span><br></pre></td></tr></table></figure>
+<p><img src="https://imgur.com/duTGDoc.jpg"></p>
+<p>檢查是否出現版本號，確認是否安裝成功</p>
+<h2 id="安裝-VSCode"><a href="#安裝-VSCode" class="headerlink" title="安裝 VSCode"></a>安裝 VSCode</h2><p>請先至 <a href="https://code.visualstudio.com/">Visual Studio Code - Code Editing. Redefined</a> 下載並安裝</p>
+<h2 id="在桌面創建-Discord-資料夾"><a href="#在桌面創建-Discord-資料夾" class="headerlink" title="在桌面創建 Discord 資料夾"></a>在桌面創建 Discord 資料夾</h2><p>請按照以下步驟在桌面上創建一個 Discord 資料夾：</p>
+<ul>
+<li>在桌面上右鍵點擊空白處</li>
+<li>選擇 <code>New</code>（新建）</li>
+<li>選擇 <code>Folder</code>（資料夾）</li>
+<li>命名資料夾依個人喜好進行設定</li>
+</ul>
+<p><img src="https://imgur.com/LGG3FyN.jpg"></p>
+<hr>
+<h1 id="建立開發環境"><a href="#建立開發環境" class="headerlink" title="建立開發環境"></a>建立開發環境</h1><h2 id="安裝-discord-js"><a href="#安裝-discord-js" class="headerlink" title="安裝 discord.js"></a>安裝 discord.js</h2><p>請先打開 VSCode 並使用 <code>ctrl + ~</code> 打開終端機</p>
+<p><img src="https://imgur.com/26ToB5p.jpg"></p>
+<p>在終端機中輸入以下指令來初始化你的機器人並安裝 discord.js 套件：</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm init -y		//初始化機器人</span><br><span class="line"></span><br><span class="line">npm i discord.js		//安裝discord.js</span><br></pre></td></tr></table></figure>
+
+<p>這將初始化你的機器人，並在資料夾中創建 package.json 檔案，同時下載並安裝 discord.js 套件。</p>
+<p>在這個過程中，你還將得到三個檔案：</p>
+<p><img src="https://imgur.com/YFKCmUm.jpg"></p>
+<p>功能分別是</p>
+<ul>
+<li><code>node_modules</code> 用來存放下載好的第三方套件</li>
+<li><code>package.json</code> 套件的資訊清單檔 包含套件的所有中繼資料，包括相依性、標題、作者等</li>
+<li><code>package-lock.json</code> 鎖定安裝模塊的版本號</li>
+</ul>
+<p>這些檔案和資料夾將有助於管理你的機器人的相依套件和版本。確保不要刪除或更改它們，以免導致機器人的正常運作受到影響。</p>
+<p>現在，你已經成功在桌面的 “Discord” 資料夾中建立了開發環境，並安裝了 discord.js 套件，準備開始編寫你的 Discord 機器人程式碼。</p>
+<hr>
+<h1 id="申請-Discord-機器人"><a href="#申請-Discord-機器人" class="headerlink" title="申請 Discord 機器人"></a>申請 Discord 機器人</h1><h2 id="創建機器人"><a href="#創建機器人" class="headerlink" title="創建機器人"></a>創建機器人</h2><p>請按照以下步驟在 Discord 開發者門戶網站上創建一個 Discord 機器人：</p>
+<ul>
+<li>前往 <a href="https://discord.com/developers/applications">Discord Developer Portal — Documentation — Intro</a></li>
+<li>點選右上 <code>New Application</code> 按鈕，創建一個新的應用程式</li>
+<li>輸入你的 <code>機器人的名稱</code> ，然後 <code>勾選同意條款</code></li>
+<li>點擊 <code>Create</code></li>
+</ul>
+<p><img src="https://imgur.com/uwcubB1.jpg"></p>
+<h2 id="獲取機器人-token"><a href="#獲取機器人-token" class="headerlink" title="獲取機器人 token"></a>獲取機器人 token</h2><p>以下是獲取機器人令牌的步驟：</p>
+<ul>
+<li>在你創建的應用程式頁面中，選擇 “Bot” 選項</li>
+<li>點擊 “Add Bot” (若已自動新增可忽略)</li>
+<li>在 <code>Token</code> 區域，點擊 <code>Reset Token</code> 按鈕，然後確認重設</li>
+</ul>
+<p><img src="https://imgur.com/tEHvgZc.jpg"></p>
+<ul>
+<li>點擊 <code>Copy</code> 按鈕以複製機器人令牌。</li>
+</ul>
+<p><img src="https://imgur.com/qQvdBEm.jpg"></p>
+<p>打開 VSCode 並新增 <code>config.json</code> 檔案並將Token放入</p>
+<p>![]<a href="https://imgur.com/9KqRnJa.jpg">https://imgur.com/9KqRnJa.jpg</a>)</p>
+<h1 id="撰寫-Discord-機器人程式"><a href="#撰寫-Discord-機器人程式" class="headerlink" title="撰寫 Discord 機器人程式"></a>撰寫 Discord 機器人程式</h1><h2 id="啟動機器人"><a href="#啟動機器人" class="headerlink" title="啟動機器人"></a>啟動機器人</h2><p>請按照以下步驟編寫 <code>index.js</code> 以啟動 Discord 機器人：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Client</span>, <span class="title class_">GatewayIntentBits</span> &#125; = <span class="built_in">require</span>(<span class="string">&#x27;discord.js&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; token &#125; = <span class="built_in">require</span>(<span class="string">&quot;./config.json&quot;</span>); <span class="comment">// 從 config.json 檔案中獲取機器人token</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> client = <span class="keyword">new</span> <span class="title class_">Client</span>(&#123;</span><br><span class="line">  <span class="attr">intents</span>: [<span class="title class_">GatewayIntentBits</span>.<span class="property">Guilds</span>], <span class="comment">// 設置機器人的 GatewayIntents</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">client.<span class="title function_">once</span>(<span class="string">&#x27;ready&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`已登入帳號：<span class="subst">$&#123;client.user.tag&#125;</span>！`</span>); <span class="comment">// 當機器人成功登入後，在控制台輸出登入訊息</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">client.<span class="title function_">login</span>(token); <span class="comment">// 使用機器人token登入 Discord</span></span><br></pre></td></tr></table></figure>
+
+<p>使用以上程式碼後，在終端機中執行 <code>node .</code> 或 <code>node index.js</code> 即可啟動你的 Discord 機器人</p>
+<p><img src="https://imgur.com/nkECo4N.jpg"></p>
+<p>程式碼可以讓你的機器人登入 Discord，並在收到訊息內容為 “ping” 時回覆 “Pong!”</p>
+<p>你可以根據需要擴展這個程式碼，並添加更多的事件處理程序和指令來定製你的機器人功能</p>
+<hr>
+<h1 id="邀請機器人進入-Discord-群組"><a href="#邀請機器人進入-Discord-群組" class="headerlink" title="邀請機器人進入 Discord 群組"></a>邀請機器人進入 Discord 群組</h1><h2 id="邀請連結取得方式"><a href="#邀請連結取得方式" class="headerlink" title="邀請連結取得方式"></a>邀請連結取得方式</h2><p>要邀請機器人進入你的 Discord 群組，需要以下步驟：</p>
+<ul>
+<li>在 <a href="https://discord.com/developers/applications">Discord Developer Portal — Documentation — Intro</a> ，找到你創建的機器人應用程式</li>
+<li>選擇左側選單中的 <code>OAuth2</code></li>
+<li>在 <code>Scopes</code> 區域中，勾選 <code>bot</code></li>
+<li>在 <code>Bot Permissions</code> 區域中，選擇機器人需要的權限。根據你的機器人的功能，選擇適當的權限</li>
+<li>在 <code>Scopes</code> 區域下方，將自動生成一個授權連結</li>
+<li>點擊 <code>Copy</code> 按鈕以複製授權連結</li>
+<li>現在，你可以將複製的授權連結發送給你的 Discord 群組管理員或其他成員，讓他們使用連結邀請你的機器人進入群組</li>
+</ul>
+<p><img src="https://imgur.com/LrUC1bX.jpg"></p>
+<p><img src="https://imgur.com/wjIJ656.jpg"></p>
+<p>當機器人被成功邀請進入群組後，你的機器人將在該群組中顯示為一個成員，並可以開始使用它的功能</p>
+<p><img src="https://imgur.com/HkfDvEW.jpg"></p>
+<p>請注意，你需要管理員權限或適當的權限才能邀請機器人進入群組。同時，確保你的機器人已經在開發者門戶網站上正確設置了適當的權限和範圍，以便在群組中執行所需的操作</p>
+<hr>
+]]></content>
+      <categories>
+        <category>Discord Bot v14 (JavaScript)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Discord Bot - ep.2 (Embed 嵌入式訊息)</title>
+    <url>/2023/06/02/Discord-Bot-ep2/</url>
+    <content><![CDATA[<h1 id="Embed-嵌入式訊息"><a href="#Embed-嵌入式訊息" class="headerlink" title="Embed 嵌入式訊息"></a>Embed 嵌入式訊息</h1><h2 id="Embed-優點"><a href="#Embed-優點" class="headerlink" title="Embed 優點"></a>Embed 優點</h2><ul>
+<li>美觀和結構化的訊息呈現</li>
+<li>能夠包含圖像、超連結和字段等多種元素</li>
+<li>支援按鈕、反應和選單等互動元素</li>
+<li>提供多種自定義選項，如顏色、作者資訊和時間戳</li>
+<li>Discord.js 提供了方便的 EmbedBuilder 類別，簡化了 Embed 的創建和設置過程</li>
+</ul>
+<p>總結來說，Embed 嵌入式訊息在 Discord 中提供了結構化、美觀且具有豐富內容和互動性的訊息展示方式</p>
+<h2 id="Embed-範例圖片"><a href="#Embed-範例圖片" class="headerlink" title="Embed 範例圖片"></a>Embed 範例圖片</h2><p><img src="https://imgur.com/GqpkOD8.jpg"></p>
+<h2 id="如何創建屬於自己的-Discord-機器人-請見-Discord-Bot-v14-ep-1-建立一個屬於自己的Discord-Bot"><a href="#如何創建屬於自己的-Discord-機器人-請見-Discord-Bot-v14-ep-1-建立一個屬於自己的Discord-Bot" class="headerlink" title="如何創建屬於自己的 Discord 機器人 請見 Discord Bot v14 ep.1 (建立一個屬於自己的Discord Bot)"></a>如何創建屬於自己的 Discord 機器人 請見 <a href="https://howardtseng0828.github.io/2023/06/02/Discord-Bot-ep1/">Discord Bot v14 ep.1 (建立一個屬於自己的Discord Bot)</a><br><span id="more"></span></h2><h2 id="Embed-使用方法"><a href="#Embed-使用方法" class="headerlink" title="Embed 使用方法"></a>Embed 使用方法</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">EmbedBuilder</span> &#125; = <span class="built_in">require</span>(<span class="string">&#x27;discord.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 創建 EmbedBuilder 實例</span></span><br><span class="line"><span class="keyword">const</span> embed = <span class="keyword">new</span> <span class="title class_">EmbedBuilder</span>()</span><br><span class="line">    .<span class="title function_">setTitle</span>(<span class="string">&#x27;標題&#x27;</span>) <span class="comment">// 設置 Embed 的標題</span></span><br><span class="line">    .<span class="title function_">setDescription</span>(<span class="string">&#x27;描述&#x27;</span>) <span class="comment">// 設置 Embed 的描述</span></span><br><span class="line">    .<span class="title function_">setColor</span>(<span class="string">&#x27;#0099ff&#x27;</span>) <span class="comment">// 設置 Embed 的顏色</span></span><br><span class="line">    .<span class="title function_">setImage</span>(<span class="string">&#x27;圖像URL&#x27;</span>) <span class="comment">// 設置 Embed 的圖像</span></span><br><span class="line">    .<span class="title function_">setThumbnail</span>(<span class="string">&#x27;圖像URL&#x27;</span>) <span class="comment">// 設置 Embed 的縮略圖</span></span><br><span class="line">    .<span class="title function_">addFields</span>(</span><br><span class="line">        <span class="comment">// 添加字段</span></span><br><span class="line">        &#123; <span class="attr">name</span>: <span class="string">&#x27;字段標題1&#x27;</span>, <span class="attr">value</span>: <span class="string">&#x27;一些內容&#x27;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">name</span>: <span class="string">&#x27;字段標題2&#x27;</span>, <span class="attr">value</span>: <span class="string">&#x27;一些內容&#x27;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">name</span>: <span class="string">&#x27;字段標題3&#x27;</span>, <span class="attr">value</span>: <span class="string">&#x27;一些內容&#x27;</span> &#125;</span><br><span class="line">    )</span><br><span class="line">    .<span class="title function_">setAuthor</span>(&#123;</span><br><span class="line">        <span class="comment">// 設置 Embed 的使用者資訊</span></span><br><span class="line">        <span class="attr">url</span>: <span class="string">`https://discord.com/users/<span class="subst">$&#123;interaction.user.id&#125;</span>`</span>,</span><br><span class="line">        <span class="attr">iconURL</span>: interaction.<span class="property">user</span>.<span class="title function_">displayAvatarURL</span>(),</span><br><span class="line">        <span class="attr">name</span>: interaction.<span class="property">user</span>.<span class="property">tag</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回覆訊息並包含 Embed，視情況選擇使用 interaction.reply 或 interaction.channel.send</span></span><br><span class="line">interaction.<span class="title function_">reply</span>(&#123; <span class="attr">embeds</span>: [embed], <span class="attr">ephemeral</span>: <span class="literal">true</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+]]></content>
+      <categories>
+        <category>Discord Bot v14 (JavaScript)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Discord Bot - ep.3 (SlashCommand (/)指令)</title>
+    <url>/2023/06/02/Discord-Bot-ep3/</url>
+    <content><![CDATA[<h1 id="SlashCommand-指令"><a href="#SlashCommand-指令" class="headerlink" title="SlashCommand (&#x2F;)指令"></a>SlashCommand (&#x2F;)指令</h1><h2 id="SlashCommand-優點"><a href="#SlashCommand-優點" class="headerlink" title="SlashCommand 優點"></a>SlashCommand 優點</h2><ul>
+<li>直觀易用：簡單且直觀的方式，可以輕鬆地定義和處理斜線指令</li>
+<li>增強互動性：使用者只需在聊天中輸入斜線指令，即可觸發特定功能或操作</li>
+<li>減少誤操作：由於斜線指令具有明確的語法，有助於減少誤操作和提供更一致的使用體驗</li>
+<li>自動完成和參數驗證：Discord 平台提供自動完成和參數驗證的功能，確保輸入的正確性</li>
+<li>支援互動元件：可以與 Discord 的互動元件（例如按鈕、下拉選單等）結合使用</li>
+</ul>
+<p>總結而言，SlashCommand 提供了直觀易用、增強互動性、減少誤操作、自動完成和參數驗證，以及支援互動元件等優點，使得開發者能夠更輕鬆地實現功能豐富且交互性強的機器人應用</p>
+<h2 id="SlashCommand-範例圖片"><a href="#SlashCommand-範例圖片" class="headerlink" title="SlashCommand 範例圖片"></a>SlashCommand 範例圖片</h2><p><img src="https://imgur.com/cZfvgui.jpg"></p>
+<h2 id="Embed-嵌入式訊息-請見-Discord-Bot-v14-ep-2-Embed-嵌入式訊息"><a href="#Embed-嵌入式訊息-請見-Discord-Bot-v14-ep-2-Embed-嵌入式訊息" class="headerlink" title="Embed 嵌入式訊息 請見 Discord Bot v14 ep.2 (Embed 嵌入式訊息)"></a>Embed 嵌入式訊息 請見 <a href="https://howardtseng0828.github.io/2023/06/02/Discord-Bot-ep2/">Discord Bot v14 ep.2 (Embed 嵌入式訊息)</a><br><span id="more"></span></h2><h2 id="SlashCommand-使用方法"><a href="#SlashCommand-使用方法" class="headerlink" title="SlashCommand 使用方法"></a>SlashCommand 使用方法</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">SlashCommandBuilder</span>, <span class="title class_">EmbedBuilder</span> &#125; = <span class="built_in">require</span>(<span class="string">&#x27;discord.js&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> music = <span class="built_in">require</span>(<span class="string">&#x27;../utils/music&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定義一個名為 &quot;resume&quot; 的物件</span></span><br><span class="line"><span class="keyword">const</span> resume = &#123;</span><br><span class="line">    <span class="comment">// 使用 SlashCommandBuilder 建立一個名為 &quot;resume&quot; 的指令，並設定描述為 &quot;恢復播放&quot;</span></span><br><span class="line">    <span class="attr">data</span>: <span class="keyword">new</span> <span class="title class_">SlashCommandBuilder</span>()</span><br><span class="line">        .<span class="title function_">setName</span>(<span class="string">&#x27;resume&#x27;</span>)</span><br><span class="line">        .<span class="title function_">setDescription</span>(<span class="string">&#x27;恢復播放&#x27;</span>),</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定義 execute 函式，用來執行 &quot;resume&quot; 指令的功能</span></span><br><span class="line">    <span class="keyword">async</span> <span class="title function_">execute</span>(<span class="params">interaction</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> guildID = interaction.<span class="property">guildId</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 檢查音樂播放器是否存在於該伺服器的音樂語境中</span></span><br><span class="line">        <span class="keyword">if</span> (music.<span class="property">dispatcher</span>[guildID]) &#123;</span><br><span class="line">            <span class="comment">// 檢查音樂是否處於暫停狀態</span></span><br><span class="line">            <span class="keyword">if</span> (music.<span class="property">isPause</span>) &#123;</span><br><span class="line">                <span class="comment">// 若是，則解除暫停</span></span><br><span class="line">                music.<span class="property">dispatcher</span>[guildID].<span class="title function_">unpause</span>();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 建立一個 EmbedBuilder 物件，用於建立回應訊息的嵌入式內容</span></span><br><span class="line">                <span class="keyword">const</span> embed = <span class="keyword">new</span> <span class="title class_">EmbedBuilder</span>()</span><br><span class="line">                    .<span class="title function_">setColor</span>(<span class="string">&#x27;#0099ff&#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setTitle</span>(<span class="string">&#x27;成功 🎉&#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setDescription</span>(<span class="string">&#x27;恢復播放 :arrow_forward: &#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setAuthor</span>(&#123;</span><br><span class="line">                        <span class="attr">url</span>: <span class="string">`https://discord.com/users/<span class="subst">$&#123;interaction.user.id&#125;</span>`</span>,</span><br><span class="line">                        <span class="attr">iconURL</span>: interaction.<span class="property">user</span>.<span class="title function_">displayAvatarURL</span>(),</span><br><span class="line">                        <span class="attr">name</span>: interaction.<span class="property">user</span>.<span class="property">tag</span></span><br><span class="line">                    &#125;);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 回應指令執行結果，並附上嵌入式內容作為回應訊息</span></span><br><span class="line">                interaction.<span class="title function_">reply</span>(&#123; <span class="attr">embeds</span>: [embed] &#125;);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 將音樂暫停狀態設為 false，表示已經恢復播放</span></span><br><span class="line">                music.<span class="property">isPause</span> = <span class="literal">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 若音樂並非處於暫停狀態，回應錯誤訊息</span></span><br><span class="line">                <span class="keyword">const</span> embed = <span class="keyword">new</span> <span class="title class_">EmbedBuilder</span>()</span><br><span class="line">                    .<span class="title function_">setColor</span>(<span class="string">&#x27;#ff0000&#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setTitle</span>(<span class="string">&#x27;錯誤 ❌&#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setDescription</span>(<span class="string">&#x27;沒有歌曲正處於暫停狀態!&#x27;</span>)</span><br><span class="line">                    .<span class="title function_">setAuthor</span>(&#123;</span><br><span class="line">                        <span class="attr">url</span>: <span class="string">`https://discord.com/users/<span class="subst">$&#123;interaction.user.id&#125;</span>`</span>,</span><br><span class="line">                        <span class="attr">iconURL</span>: interaction.<span class="property">user</span>.<span class="title function_">displayAvatarURL</span>(),</span><br><span class="line">                        <span class="attr">name</span>: interaction.<span class="property">user</span>.<span class="property">tag</span></span><br><span class="line">                    &#125;);</span><br><span class="line"></span><br><span class="line">                interaction.<span class="title function_">reply</span>(&#123; <span class="attr">embeds</span>: [embed] &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 若音樂播放器不存在於該伺服器的音樂語境中，回應錯誤訊息</span></span><br><span class="line">            <span class="keyword">const</span> embed = <span class="keyword">new</span> <span class="title class_">EmbedBuilder</span>()</span><br><span class="line">                .<span class="title function_">setColor</span>(<span class="string">&#x27;#ff0000&#x27;</span>)</span><br><span class="line">                .<span class="title function_">setTitle</span>(<span class="string">&#x27;錯誤 ❌&#x27;</span>)</span><br><span class="line">                .<span class="title function_">setDescription</span>(<span class="string">&#x27;機器人未加入任何頻道&#x27;</span>)</span><br><span class="line">                .<span class="title function_">setAuthor</span>(&#123;</span><br><span class="line">                    <span class="attr">url</span>: <span class="string">`https://discord.com/users/<span class="subst">$&#123;interaction.user.id&#125;</span>`</span>,</span><br><span class="line">                    <span class="attr">iconURL</span>: interaction.<span class="property">user</span>.<span class="title function_">displayAvatarURL</span>(),</span><br><span class="line">                    <span class="attr">name</span>: interaction.<span class="property">user</span>.<span class="property">tag</span></span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">            interaction.<span class="title function_">reply</span>(&#123; <span class="attr">embeds</span>: [embed], <span class="attr">ephemeral</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 匯出 resume 物件供其他程式碼使用</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = resume;</span><br></pre></td></tr></table></figure>
+
+<hr>
+]]></content>
+      <categories>
+        <category>Discord Bot v14 (JavaScript)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>使用 Firebase AuthCredential 重新驗證身分並修改特定資料</title>
+    <url>/2023/05/31/Firebase-Credential/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>設計開發 APP 時，使用 SharedPreferences 儲存登入狀態資料<br>卻發現在登入後，關閉 APP 或 APP 處於背景活動階段 <code>大於</code> 5分鐘<br>若用戶想 <code>刪除帳戶</code> 、 <code>更改電子郵件地址</code> 和 <code>更改密碼</code><br>Firebase 會拒絕使用 <code>UpdateEmail</code> 和 <code>UpdatePassword</code> 這類 method<br>於是乎，需要用到 <code>AuthCredential</code> 重新驗證身分</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<h1 id="AuthCredential-範例"><a href="#AuthCredential-範例" class="headerlink" title="AuthCredential 範例"></a>AuthCredential 範例</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">FirebaseUser</span> <span class="variable">user</span> <span class="operator">=</span> FirebaseAuth.getInstance().getCurrentUser();</span><br><span class="line"></span><br><span class="line"><span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">        .getCredential(<span class="string">&quot;user@example.com&quot;</span>, <span class="string">&quot;password1234&quot;</span>);</span><br><span class="line"></span><br><span class="line">user.reauthenticate(credential)</span><br><span class="line">        .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;User re-authenticated.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>在此範例中，使用字串形式的 <code>user@example.com</code> 和 <code>password1234</code> 來取得 <code>AuthCredential</code>。然而，這種方式的使用受到限制，並不適用於驗證不同的使用者。</p>
+<hr>
+<h1 id="解決辦法與程式碼展示"><a href="#解決辦法與程式碼展示" class="headerlink" title="解決辦法與程式碼展示"></a>解決辦法與程式碼展示</h1><p>以下是我提出的解決方案，並展示了相關的程式碼。</p>
+<h2 id="使用者在修改資料前需輸入目前的密碼"><a href="#使用者在修改資料前需輸入目前的密碼" class="headerlink" title="使用者在修改資料前需輸入目前的密碼"></a>使用者在修改資料前需輸入目前的密碼</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">checkPassword</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">CheckDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line"> CheckDialog.setTitle(<span class="string">&quot;請輸入目前密碼&quot;</span>);</span><br><span class="line">            CheckDialog.setView(checkPassword);</span><br><span class="line">            CheckDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">            	....</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>在此處使用了一個 <code>AlertDialog</code>，使用者可以在對話方塊中輸入目前的密碼，然後按下確定鍵。</p>
+<h2 id="將取得的使用者資料應用於方法中"><a href="#將取得的使用者資料應用於方法中" class="headerlink" title="將取得的使用者資料應用於方法中"></a>將取得的使用者資料應用於方法中</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">	.getCredential(mAuth.getCurrentUser().getEmail(), checkPassword.getText().toString());</span><br><span class="line">mAuth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">	    <span class="keyword">if</span> (task.isSuccessful())&#123;</span><br><span class="line">		...</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼輸入錯誤&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">	    &#125;</span><br></pre></td></tr></table></figure>
+<p>email 使用 <code>mAuth.getCurrentUser().getEmail()</code> 取得的使用者<code>目前email</code><br>password 使用 <code>EditText checkPassword</code> 取得的使用者<code>目前password</code><br><code>if (task.isSuccessful())</code> 驗證成功就繼續執行，失敗則顯示密碼輸入錯誤</p>
+<h2 id="使用者輸入新的email"><a href="#使用者輸入新的email" class="headerlink" title="使用者輸入新的email"></a>使用者輸入新的email</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">resetEmail</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ResetDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line">ResetDialog.setTitle(<span class="string">&quot;請輸入新的電子郵件地址?&quot;</span>);</span><br><span class="line">           ResetDialog.setView(resetEmail);</span><br><span class="line">           ResetDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">		....</span><br><span class="line">	   &#125;</span><br></pre></td></tr></table></figure>
+<p>再設置一個對話方塊，取得該對話方塊內的值並且按下確定鍵</p>
+<h2 id="請求重置的最後確認"><a href="#請求重置的最後確認" class="headerlink" title="請求重置的最後確認"></a>請求重置的最後確認</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ConfirmDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line">ConfirmDialog.setTitle(<span class="string">&quot;確定重置電子郵件地址&quot;</span>);</span><br><span class="line">             ConfirmDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">		...</span><br><span class="line">	     &#125;</span><br></pre></td></tr></table></figure>
+<p>再設置一個對話方塊，確認使用者按下確定鍵</p>
+<h2 id="執行UpdateEmail"><a href="#執行UpdateEmail" class="headerlink" title="執行UpdateEmail"></a>執行UpdateEmail</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">email</span> <span class="operator">=</span> resetEmail.getText().toString();</span><br><span class="line"></span><br><span class="line">mAuth.getCurrentUser().updateEmail(email)</span><br><span class="line">        .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                                                                    </span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">( Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (task.isSuccessful()) &#123;</span><br><span class="line">                    mAuth.getCurrentUser().sendEmailVerification();</span><br><span class="line">                    mAuth.signOut();</span><br><span class="line">                    startActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>(AccountActivity.<span class="built_in">this</span>, LoginActivity.class));</span><br><span class="line">                    finish();</span><br><span class="line">                    Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;更新電子郵件地址成功，請重新登錄&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                 &#125;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="整合上述程式碼"><a href="#整合上述程式碼" class="headerlink" title="整合上述程式碼"></a>整合上述程式碼</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> FirebaseAuth mAuth;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Button updateEmail;</span><br><span class="line"></span><br><span class="line">mAuth = FirebaseAuth.getInstance();</span><br><span class="line"></span><br><span class="line">updateEmail = findViewById(R.id.updateEmail);</span><br><span class="line"></span><br><span class="line">updateEmail.setOnClickListener(view -&gt; &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">checkPassword</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">resetEmail</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ResetDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">CheckDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ConfirmDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            CheckDialog.setTitle(<span class="string">&quot;請輸入目前密碼&quot;</span>);</span><br><span class="line">            CheckDialog.setView(checkPassword);</span><br><span class="line">            CheckDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                    <span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">                            .getCredential(mAuth.getCurrentUser().getEmail(), checkPassword.getText().toString());</span><br><span class="line">                    mAuth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                            <span class="keyword">if</span> (task.isSuccessful())&#123;</span><br><span class="line">                                ResetDialog.setTitle(<span class="string">&quot;請輸入新的電子郵件地址?&quot;</span>);</span><br><span class="line">                                ResetDialog.setView(resetEmail);</span><br><span class="line">                                ResetDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                            <span class="meta">@Override</span></span><br><span class="line">                                            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                                ConfirmDialog.setTitle(<span class="string">&quot;確定重置電子郵件地址&quot;</span>);</span><br><span class="line">                                                ConfirmDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                                    <span class="meta">@Override</span></span><br><span class="line">                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface arg0, <span class="type">int</span> arg1)</span> &#123;</span><br><span class="line">                                                        <span class="type">String</span> <span class="variable">email</span> <span class="operator">=</span> resetEmail.getText().toString();</span><br><span class="line">                                                        mAuth.getCurrentUser().updateEmail(email)</span><br><span class="line">                                                                .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                                                                    <span class="meta">@Override</span></span><br><span class="line">                                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                                                                        <span class="keyword">if</span> (task.isSuccessful()) &#123;</span><br><span class="line">                                                                            mAuth.getCurrentUser().sendEmailVerification();</span><br><span class="line">                                                                            mAuth.signOut();</span><br><span class="line">                                                                            startActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>(AccountActivity.<span class="built_in">this</span>, LoginActivity.class));</span><br><span class="line">                                                                            finish();</span><br><span class="line">                                                                            Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;更新電子郵件地址成功，請重新登錄&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                                                                        &#125;</span><br><span class="line">                                                                    &#125;</span><br><span class="line">                                                                &#125;).addOnFailureListener(<span class="keyword">new</span> <span class="title class_">OnFailureListener</span>() &#123;</span><br><span class="line">                                                                    <span class="meta">@Override</span></span><br><span class="line">                                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(<span class="meta">@NonNull</span> Exception e)</span> &#123;</span><br><span class="line">                                                                        <span class="type">String</span> <span class="variable">errorCode</span> <span class="operator">=</span> ((FirebaseAuthException) task.getException()).getErrorCode();</span><br><span class="line">                                                                        <span class="keyword">switch</span> (errorCode) &#123;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_CUSTOM_TOKEN&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;自定義token不正確。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_CUSTOM_TOKEN_MISMATCH&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;自定義token屬於不同的用戶。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_CREDENTIAL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;提供的身份驗證憑據格式不正確或已過期。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_EMAIL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;電子郵件地址格式錯誤。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_WRONG_PASSWORD&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼不正確。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_MISMATCH&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;提供的憑證與先前登錄的用戶不相符。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_REQUIRES_RECENT_LOGIN&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;需要最近的身份驗證。 在重試此請求之前再次登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;已存在具有相同電子郵件地址但登錄憑證不同的帳戶。 使用與此電子郵件地址關聯的提供商登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_EMAIL_ALREADY_IN_USE&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;該電子郵件地址已被另一個帳戶使用。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_CREDENTIAL_ALREADY_IN_USE&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;此憑證已與其他用戶帳戶相關聯。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_DISABLED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;該用戶帳戶已被管理員禁用。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_TOKEN_EXPIRED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;用戶的憑證不再有效。 用戶必須重新登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_NOT_FOUND&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;為查詢到與此對應的用戶記錄， 該用戶可能已被刪除。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_OPERATION_NOT_ALLOWED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;不允許此操作。 您必須在控制台中啟用此服務。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_WEAK_PASSWORD&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;輸入的密碼無效。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                        &#125;</span><br><span class="line">                                                                    &#125;</span><br><span class="line">                                                                &#125;);</span><br><span class="line">                                                    &#125;</span><br><span class="line">                                                &#125;);</span><br><span class="line">                                                ConfirmDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                                    <span class="meta">@Override</span></span><br><span class="line">                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                                    &#125;</span><br><span class="line">                                                &#125;);</span><br><span class="line">                                                ConfirmDialog.create().show();</span><br><span class="line">                                            &#125;</span><br><span class="line">                                        &#125;);</span><br><span class="line">                                ResetDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                    <span class="meta">@Override</span></span><br><span class="line">                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;);</span><br><span class="line">                                ResetDialog.create().show();</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼輸入錯誤&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            CheckDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">           CheckDialog.create().show();</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+]]></content>
+      <categories>
+        <category>Android Studio (JAVA)</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Pages 架設 Blog</title>
+    <url>/2023/05/31/Hexo-Github/</url>
+    <content><![CDATA[<h1 id="前置作業"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業</h1><h2 id="安裝Node-js®"><a href="#安裝Node-js®" class="headerlink" title="安裝Node.js®"></a>安裝Node.js®</h2><p>請先至 <a href="https://nodejs.org/en/">Node.js® 官網</a> 下載並安裝</p>
+<p>安裝後，開啟 <code>CLI介面</code> 並輸入</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">node -v &amp;&amp; npm -v</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/fyXs5x@.jpg"></p>
+<p>檢查是否出現版本號，確認是否安裝成功</p>
+<span id="more"></span>
+<h2 id="安裝Hexo"><a href="#安裝Hexo" class="headerlink" title="安裝Hexo"></a>安裝Hexo</h2><p>輸入指令，安裝Hexo</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli g</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/ff4rnx@.jpg"></p>
+<p>安裝後，可輸入 <code>hexo version</code> 或 <code>hexo -v</code> 查看 Hexo 版本，確認是否有安裝成功</p>
+<hr>
+<h1 id="建置Hexo環境"><a href="#建置Hexo環境" class="headerlink" title="建置Hexo環境"></a>建置Hexo環境</h1><h2 id="初始化Hexo"><a href="#初始化Hexo" class="headerlink" title="初始化Hexo"></a>初始化Hexo</h2><p>使用cd指令切換路徑</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;資料夾名稱 or 資料夾路徑&gt;	#切換路徑</span><br><span class="line"></span><br><span class="line">例如: </span><br><span class="line">	<span class="built_in">cd</span> C:\Users\&lt;使用者名稱&gt;\Desktop		#將路徑切換至桌面</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo init &lt;資料夾名稱&gt;		# 初始化 Hexo</span><br><span class="line"></span><br><span class="line">例如:</span><br><span class="line">	hexo init my-blog</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/faw78x@.jpg"></p>
+<h2 id="在資料夾安裝所需檔案"><a href="#在資料夾安裝所需檔案" class="headerlink" title="在資料夾安裝所需檔案"></a>在資料夾安裝所需檔案</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm install	# 安裝所需的npm套件</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git –save	# 安裝Git部署所需套件</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/fQdTEx@.jpg"></p>
+<hr>
+<h1 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h1><h2 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo n [layout] &lt;<span class="built_in">title</span>&gt;		#新增文章</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/fSw6Ux@.jpg"></p>
+<p>如果沒有輸入 layout，則會使用 _config.yml 中的 default_layout<br>如果標題有包含空格，需使用引號括住，例如:”Hello World”<br>接著可直接到 &#x2F;source&#x2F;_posts&#x2F;title.md 中使用 Markdown 語法編輯內容<br>檔案名稱盡量以<code>英文</code>命名，避免出現亂碼</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo cl		#清除靜態檔案與快取</span><br></pre></td></tr></table></figure>
+
+<p>每次儲存修正後的檔案之前，會建議先輸入此指令，清除快取檔案和已產生的靜態檔案</p>
+<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo g		#產生靜態檔案</span><br></pre></td></tr></table></figure>
+
+<p>靜態檔案為預設名稱為（public）的資料夾內之檔案。</p>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo s		#啟動伺服器</span><br></pre></td></tr></table></figure>
+<p><img src="https://ppt.cc/fn28Dx@.jpg"></p>
+<p>在本地端啟動 Hexo 伺服器，預設路徑為 : <a href="http://localhost:4000/">http://localhost:4000/</a><br>可在自己瀏覽器上預覽設定結果，按 Ctrl + C 即可關閉。</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo d		#部署至Github</span><br></pre></td></tr></table></figure>
+
+<p>第一次部署可能會要求登入 GitHub 帳號：</p>
+<hr>
+<h1 id="Hexo-與-Github-建立連接"><a href="#Hexo-與-Github-建立連接" class="headerlink" title="Hexo 與 Github 建立連接"></a>Hexo 與 Github 建立連接</h1><h2 id="建立-Github-Repositories"><a href="#建立-Github-Repositories" class="headerlink" title="建立 Github Repositories"></a>建立 Github Repositories</h2><p>點選 New 新增一個 Repository</p>
+<p><img src="https://ppt.cc/f0v8Ux@.jpg"></p>
+<p>將專案名稱命名為 username.github.io，記得將 username 修改成自己的帳號名稱</p>
+<p><img src="https://ppt.cc/fF2MTx@.jpg"></p>
+<h2 id="修改-cofig-yml-的-deploy-設定值"><a href="#修改-cofig-yml-的-deploy-設定值" class="headerlink" title="修改 _cofig.yml 的 deploy 設定值"></a>修改 _cofig.yml 的 deploy 設定值</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+
+<p>type：選擇git部屬模式<br>repo：GitHub repository 的連結，記得將 username 修改成自己的帳號名稱<br>branch：選擇分支，預設為 master</p>
+<h2 id="輸入指令上傳檔案"><a href="#輸入指令上傳檔案" class="headerlink" title="輸入指令上傳檔案"></a>輸入指令上傳檔案</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g -d</span><br></pre></td></tr></table></figure>
+<p>這樣就完成部署到 GitHub 了！可在瀏覽器上輸入 <a href="https://username.github.io/">https://username.github.io</a> 確認是否有發布成功</p>
+<p><img src="https://ppt.cc/fbF2Vx@.jpg"></p>
+<hr>
+]]></content>
+      <categories>
+        <category>Hexo Blog</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hexo Theme ep.1 (Next 主題)</title>
+    <url>/2023/05/31/Hexo-Theme-ep1/</url>
+    <content><![CDATA[<h1 id="Next主題"><a href="#Next主題" class="headerlink" title="Next主題"></a>Next主題</h1><h2 id="優點和特色"><a href="#優點和特色" class="headerlink" title="優點和特色"></a>優點和特色</h2><ul>
+<li>美觀的外觀和現代化設計</li>
+<li>響應式設計，適應不同尺寸的設備和屏幕</li>
+<li>高度可定製性，提供豐富的配置選項和自定義功能</li>
+<li>支持多種插件和功能，如內容搜索、社交媒體分享和站點統計</li>
+<li>靜態網站生成，快速載入速度，提供更好的用戶體驗和SEO效果<span id="more"></span></li>
+</ul>
+<h2 id="安裝與套用"><a href="#安裝與套用" class="headerlink" title="安裝與套用"></a>安裝與套用</h2><p>使用cd指令切換路徑至blog目錄</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Users\&lt;使用者名稱&gt;\Desktop\blog</span><br><span class="line"></span><br><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<p>下載完後，打開 <code>/blog/_config.yml</code> 修改 <code>theme</code> 欄位為 <code>next</code></p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Next-主題設置"><a href="#Next-主題設置" class="headerlink" title="Next 主題設置"></a>Next 主題設置</h1><h2 id="風格選項"><a href="#風格選項" class="headerlink" title="風格選項"></a>風格選項</h2><p>接下來請使用 <code>ctrl + f</code> 快捷鍵搜尋，更加便利。</p>
+<p>在 <code>/blog/themes/next/_config.yml</code> 檔案中，尋找 <code>Scheme Settings</code> 的設定項。這個設定項控制著主題的配色方案。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ---------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Scheme Settings</span></span><br><span class="line"><span class="comment"># ---------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment">#scheme: Muse		#使用黑白色調，看起來乾淨利落</span></span><br><span class="line"><span class="comment">#scheme: Mist		#是Muse的變體，以整潔的單列視圖為特點</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Pisces</span>		<span class="comment">#使用雙列版面，給人一種清新的感覺，有點像你鄰居的女兒		//官方說明翻成中文==</span></span><br><span class="line"><span class="comment">#scheme: Gemini		#看起來與Pisces相似，但具有明顯的列區塊和陰影，使其在視覺上更具敏感性</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Dark Mode</span></span><br><span class="line"><span class="attr">darkmode:</span> <span class="literal">true</span>		<span class="comment">#啟用暗黑模式</span></span><br></pre></td></tr></table></figure>
+
+<p>尋找 <code>Menu Settings</code> 的設定項，這是用於配置導航菜單的地方。</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ---------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Menu Settings</span></span><br><span class="line"><span class="comment"># ---------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用方法：`Key: /link/ || icon`</span></span><br><span class="line"><span class="comment"># Key 是菜單項目的名稱。如果有該項目的翻譯可用，則會載入翻譯後的文字，否則將使用 Key 名稱。Key 是區分大小寫的。</span></span><br><span class="line"><span class="comment"># || 分隔符號之前的值是目標鏈接，|| 分隔符號之後的值是 Font Awesome 圖示的名稱。</span></span><br><span class="line"><span class="comment"># 如果在子目錄中運行網站（例如：yoursite.com/blog），則從鏈接值中刪除開頭的斜線（/archives -&gt; archives）。</span></span><br><span class="line"><span class="comment"># 外部連結應以 http:// 或 https:// 開頭。</span></span><br><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="comment">#tags: /tags/ || fa fa-tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-archive</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || fa fa-calendar</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml || fa fa-sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: /404/ || fa fa-heartbeat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable / Disable menu icons / item badges.</span></span><br><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>將開頭 # 註記符號拿掉即可，home和archives是預設開啟的<br>我個人是只開啟about、categories</p>
+<p>設定後請使用cd指令切換路徑至blog目錄</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> C:\Users\&lt;使用者名稱&gt;\Desktop\blog</span><br></pre></td></tr></table></figure>
+
+<p>輸入 <code>hexo post n page about</code> 和 <code>hexo post n page categories</code></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo post n page about</span><br><span class="line">hexo post n page categories</span><br></pre></td></tr></table></figure>
+
+<p>就會在 <code>/blog/Source</code> 裡看到about和categories兩個資料夾<br>打開資料夾下的 <code>index.md</code></p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 關於我		&lt;!-- 更改頁面title --&gt;</span><br><span class="line">date: yyyy-mm-dd hh:mm:ss</span><br><span class="line"><span class="section">type: about		&lt;!-- 新增type: --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣就成功囉!!!</p>
+<hr>
+]]></content>
+      <categories>
+        <category>Hexo Blog</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>物件導向程式設計 (Object-oriented programming)</title>
+    <url>/2024/05/15/Object-oriented%20programming/</url>
+    <content><![CDATA[<h1 id="定義"><a href="#定義" class="headerlink" title="定義"></a>定義</h1><p>是結構化程式設計(structured programming design) 的一個根本改變，相似處在於，都相信發展一個複雜系統的好方式是各個擊破法 (divide and conquer)。</p>
+<ul>
+<li><p>物件是基本的組成單元。</p>
+</li>
+<li><p>每一格物件都是某一種型態(type) 或類別(class)。</p>
+</li>
+<li><p>類別透過繼承(inheritance) 關係與其他類別產生關連。</p>
+</li>
+</ul>
+<blockquote>
+<p><em><strong>不使用繼承關係的程式設計就不被視為物件導向程式設計 !!!</strong></em></p>
+</blockquote>
+<h1 id="演算法分解-algorithmic-decomposition"><a href="#演算法分解-algorithmic-decomposition" class="headerlink" title="演算法分解(algorithmic decomposition)"></a>演算法分解(algorithmic decomposition)</h1><p>將軟體視為一個程序(process)，並分解成好幾個模組(module)，每一個模組代表程序中的一個步驟。</p>
+<h1 id="物件導向分解-Object-oriented-decomposition"><a href="#物件導向分解-Object-oriented-decomposition" class="headerlink" title="物件導向分解(Object - oriented decomposition)"></a>物件導向分解(Object - oriented decomposition)</h1><p>將軟體視為一個 「定義完整」的物件(objects)，該物件所描述的是一個實體(entity)。<br>物件互動組成一個軟體系統，主要優點是鼓勵軟體的「再使用(reuse)」，形成更富有彈性的軟體。</p>
+<span id="more"></span>
+
+<h1 id="物件導向程式"><a href="#物件導向程式" class="headerlink" title="物件導向程式"></a>物件導向程式</h1><p>物件是一個能夠進行運算並且擁有自己狀態(local status) 的實體(entity)<br>因此可以被視為是資料與程序元件(procedural elements) 的組合體。</p>
+<h1 id="物件導語言"><a href="#物件導語言" class="headerlink" title="物件導語言"></a>物件導語言</h1><ul>
+<li>語言支援物件技術。</li>
+<li>物件必須屬於某一格類別。</li>
+<li>語言必須之支援繼承技術。</li>
+</ul>
+<blockquote>
+<p><em><strong>只支援前兩項要求而不支援繼承技術的語言只能稱之為物件基礎(object-based)</strong></em><br><em><strong>例如: JavaScript</strong></em></p>
+</blockquote>
+<hr>
+]]></content>
+      <categories>
+        <category>Fundamentals of Data Structures in C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>React + Django 環境架設</title>
+    <url>/2023/07/20/React-Django-%E7%92%B0%E5%A2%83%E6%9E%B6%E8%A8%AD/</url>
+    <content><![CDATA[<p><img src="https://imgur.com/Bfn1MVS.jpg"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="Frontend"><a href="#Frontend" class="headerlink" title="Frontend"></a>Frontend</h2><p>前端框架的選擇對於項目的成功至關重要。在探索過程中發現， Vue 和 React 兩者都受到廣泛推薦。</p>
+<p>React 在開發社群中享有廣泛的支持和擁護，並且擁有龐大的生態系統。這些因素表明 React 是一個穩固、成熟且可靠的選擇。</p>
+<p>雖然有部分人認為 React 的學習曲線較陡峭，但對技術的學習充滿熱情，並相信這將是一個有益的挑戰。</p>
+<ul>
+<li><p>學習 React 將提供更多靈活性和創造力，有助於將來開發更複雜的應用程序。</p>
+</li>
+<li><p>Vue 和 React 在某些方面有相似之處，日後如需轉向 Vue ，這些共通點將使過渡變得更加容易。</p>
+</li>
+</ul>
+<h2 id="Backend"><a href="#Backend" class="headerlink" title="Backend"></a>Backend</h2><p>選擇後端框架時，希望找到一個功能豐富且強大的解決方案，以滿足比價網站的複雜需求。</p>
+<p>經過對不同框架的評估，最終選擇了 Django 作為後端框架。</p>
+<ul>
+<li><p>成熟且廣受歡迎的 Python Web 框架，提供了強大的功能，如內建的數據庫 ORM 、管理後台、用戶身份驗證等。</p>
+</li>
+<li><p>優雅設計和易於擴展的特性將帶來更高效且流暢的開發體驗。</p>
+<span id="more"></span></li>
+</ul>
+<h1 id="建立虛擬環境"><a href="#建立虛擬環境" class="headerlink" title="建立虛擬環境"></a>建立虛擬環境</h1><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">conda create --name &lt;虛擬環境名稱&gt; python=&lt;python版本&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="啟動虛擬環境"><a href="#啟動虛擬環境" class="headerlink" title="啟動虛擬環境"></a>啟動虛擬環境</h1><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">activate &lt;虛擬環境名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-Django-套件"><a href="#安裝-Django-套件" class="headerlink" title="安裝 Django 套件"></a>安裝 Django 套件</h2><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">pip install django==&lt;需要的版本&gt;</span><br><span class="line">pip install django-cors-headers</span><br></pre></td></tr></table></figure>
+
+<h1 id="建立-Django-project-和-Django-application"><a href="#建立-Django-project-和-Django-application" class="headerlink" title="建立 Django project 和 Django application"></a>建立 Django project 和 Django application</h1><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">django-admin startproject &lt;專案名稱&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案名稱&gt;</span><br><span class="line">python manage.py startapp backend</span><br></pre></td></tr></table></figure>
+
+<h1 id="編輯-Django-project-內的檔案"><a href="#編輯-Django-project-內的檔案" class="headerlink" title="編輯 Django project 內的檔案"></a>編輯 Django project 內的檔案</h1><h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">BASE_DIR = Path(__file__).resolve().parent.parent</span><br><span class="line"></span><br><span class="line">ALLOWED_HOSTS = [<span class="string">&#x27;*&#x27;</span>]</span><br><span class="line"></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ...</span><br><span class="line">    <span class="string">&quot;backend&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;corsheaders&#x27;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">MIDDLEWARE = [</span><br><span class="line">    ...</span><br><span class="line">    <span class="string">&quot;corsheaders.middleware.CorsMiddleware&quot;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">ROOT_URLCONF = <span class="string">&quot;priceComparison.urls&quot;</span></span><br><span class="line"></span><br><span class="line">TEMPLATES = [</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="string">&quot;DIRS&quot;</span>: [os.path.join(BASE_DIR, <span class="string">&quot;frontend/build&quot;</span>),],</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">LANGUAGE_CODE = <span class="string">&quot;zh-hant&quot;</span></span><br><span class="line"></span><br><span class="line">TIME_ZONE = <span class="string">&quot;Asia/Taipei&quot;</span></span><br><span class="line"></span><br><span class="line">STATIC_URL = <span class="string">&quot;static/&quot;</span></span><br><span class="line"></span><br><span class="line">STATICFILES_DIRS = [</span><br><span class="line">    os.path.join(BASE_DIR, <span class="string">&quot;frontend/build/static&quot;</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">CORS_ALLOWED_ORIGINS = [</span><br><span class="line">    <span class="string">&#x27;http://localhost:3000&#x27;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="urls-py"><a href="#urls-py" class="headerlink" title="urls.py"></a>urls.py</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.generic <span class="keyword">import</span> TemplateView</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&quot;admin/&quot;</span>, admin.site.urls),</span><br><span class="line">    path(<span class="string">&#x27;&#x27;</span>, TemplateView.as_view(template_name=<span class="string">&#x27;index.html&#x27;</span>)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h1 id="建立-React-project"><a href="#建立-React-project" class="headerlink" title="建立 React project"></a>建立 React project</h1><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npx create-react-app frontend</span><br><span class="line"><span class="built_in">cd</span> frontend</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h1 id="執行-Django-專案"><a href="#執行-Django-專案" class="headerlink" title="執行 Django 專案"></a>執行 Django 專案</h1><figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+
+<h1 id="查看網址"><a href="#查看網址" class="headerlink" title="查看網址"></a>查看網址</h1><p>會發現 (<a href="http://localhost:8000/">http://localhost:8000/</a>) 網頁會被引導到 React 前端 (<a href="http://localhost:3000/">http://localhost:3000/</a>) 頁面<br>這樣就代表成功串接前後端囉!</p>
+<p><img src="https://imgur.com/JlG8Ezs.jpg"></p>
+<hr>
+]]></content>
+      <categories>
+        <category>React Frontend + Django Backend</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>系統生命週期(System life cycle)</title>
+    <url>/2024/04/20/System-life-cycle/</url>
+    <content><![CDATA[<h1 id="需求-requirements"><a href="#需求-requirements" class="headerlink" title="需求(requirements)"></a>需求(requirements)</h1><p>設立一些規格定義任意程式專案的目標。這些規格描述給定的輸入、產出的輸出為何</p>
+<h1 id="分析-analysis"><a href="#分析-analysis" class="headerlink" title="分析(analysis)"></a>分析(analysis)</h1><p>仔細描述出系統需求，把問題分析成數個容意處理的小工作</p>
+<ul>
+<li><p>由下而上(bottom-up)<br>沒有結構化的方法，結構鬆散或容易有錯誤的程式片段。</p>
+</li>
+<li><p>由上而下(top-down)<br>規劃完全後將程式分成數個可處理的片段，再針對每個片段進行更低階的細節。</p>
+</li>
+</ul>
+<h1 id="設計-design"><a href="#設計-design" class="headerlink" title="設計(design)"></a>設計(design)</h1><p>觀察程式需要哪些資料物件(data object) 與運算(operations)</p>
+<ul>
+<li>資料物件(data object) &#x3D;&gt; 抽象化資料型態(abstract data type)</li>
+<li>運算(operation) &#x3D;&gt; 演算法(algorithm) 規格以及設計策略</li>
+</ul>
+<h1 id="改良與編碼"><a href="#改良與編碼" class="headerlink" title="改良與編碼"></a>改良與編碼</h1><p>為資料物件(data object) 選擇一種表示法，替處理資料物件的運算設計演算法。</p>
+<blockquote>
+<p><em><strong>資料物件的表示法會直接決定演算法之效率</strong></em></p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h1><ul>
+<li><p>證明程式的正確性<br>應避免耗費時間，可選擇已被證明其正確性的演算法來減少許多可能發生的錯誤。</p>
+</li>
+<li><p>測試<br>測試資料必須小心取用，務必做到將所有可能發生的情況都考慮進去。</p>
+</li>
+<li><p>移除錯誤</p>
+</li>
+</ul>
+<blockquote>
+<p><em><strong>執行速度非常緩慢的程式也沒有任何價值 !!!</strong></em></p>
+</blockquote>
+<hr>
+]]></content>
+      <categories>
+        <category>Fundamentals of Data Structures in C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>演算法 (Algorithm)</title>
+    <url>/2024/05/15/algorithm/</url>
+    <content><![CDATA[<h1 id="定義"><a href="#定義" class="headerlink" title="定義"></a>定義</h1><p>一個有限大小的指令集。</p>
+<ul>
+<li>輸入： 外界提供輸入，或不需要輸入．</li>
+<li>輸出： 至少產生一個輸出．</li>
+<li>明確性： 指令清楚不含糊</li>
+<li>有限性： 逐行有限數目的步驟之後停止</li>
+<li>有效性： 指令需基本到可實行．</li>
+</ul>
+<h1 id="Algorithm-exercise"><a href="#Algorithm-exercise" class="headerlink" title="Algorithm exercise"></a>Algorithm exercise</h1><h2 id="SelectSort"><a href="#SelectSort" class="headerlink" title="SelectSort"></a>SelectSort</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(<span class="type">int</span> *a, <span class="type">const</span> <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)&#123;</span><br><span class="line">		<span class="type">int</span> j=i;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> k=i+<span class="number">1</span>; k&lt;n; k++&gt;)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[k] &lt; a[j])&#123;</span><br><span class="line">				j=k;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">swqp</span>(a[i],a[j])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="BinarySearch"><a href="#BinarySearch" class="headerlink" title="BinarySearch"></a>BinarySearch</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 疊代</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinarySearch</span><span class="params">(<span class="type">int</span> *a, <span class="type">const</span> <span class="type">int</span> x, <span class="type">const</span> <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> left=<span class="number">0</span>, right=n<span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">		<span class="type">int</span> middle = (left+right)/<span class="number">2</span></span><br><span class="line">		<span class="keyword">if</span>(x &lt; a[middle])&#123;</span><br><span class="line">			right = middle<span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(x &gt; a[middle])&#123;</span><br><span class="line">			left = middle+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> middle;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> - <span class="number">1</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遞迴 BinarySearch(a, x, 0, n-1)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BinarySearch</span><span class="params">(<span class="type">int</span> *a, <span class="type">const</span> <span class="type">int</span> x, <span class="type">const</span> <span class="type">int</span> left, <span class="type">const</span> <span class="type">int</span> right)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(left &lt;= right)&#123;</span><br><span class="line">		<span class="type">int</span> middle = (left+right)/<span class="number">2</span></span><br><span class="line">		<span class="keyword">if</span>(x &lt; a[middle])&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">BinarySearch</span>(a, x, left, middle<span class="number">-1</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(x &gt; a[middle])&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">BinarySearch</span>(a, x, right, middle+<span class="number">1</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> middle;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> - <span class="number">1</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fibonacci"><a href="#Fibonacci" class="headerlink" title="Fibonacci"></a>Fibonacci</h3><p>費氏數列定義為:F(0) &#x3D; 0, F(1) &#x3D; 1, F(i) &#x3D; F(i-1) + F(i-2) (i ≥ 2)，請分別用C++寫出疊代與遞迴函式來計算F(i)的值。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 疊代</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (n &lt;= <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> a=<span class="number">0</span>, b=<span class="number">1</span>, result;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++)&#123;</span><br><span class="line">		result = a + b;</span><br><span class="line">		a = b;</span><br><span class="line">		b = result;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Enter the number of terms: &quot;</span>;</span><br><span class="line">    std::cin &gt;&gt; n;</span><br><span class="line">    </span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">fibonacci</span>(n) &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遞迴</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">return</span> (<span class="built_in">fibonacci</span>(n<span class="number">-1</span>) + <span class="built_in">fibonacci</span>(n<span class="number">-2</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Enter the number of terms: &quot;</span>;</span><br><span class="line">    std::cin &gt;&gt; n;</span><br><span class="line">    </span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">fibonacci</span>(n) &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="未完待續-…"><a href="#未完待續-…" class="headerlink" title="未完待續 …"></a>未完待續 …</h1><hr>
+]]></content>
+      <categories>
+        <category>Fundamentals of Data Structures in C++</category>
+      </categories>
+  </entry>
+</search>

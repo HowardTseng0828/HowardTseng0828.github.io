@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="googled1ff43fb0867b587.html">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"howardtseng0828.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":42,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言 設計開發 APP 時，使用 SharedPreferences 儲存登入狀態資料卻發現在登入後，關閉 APP 或 APP 處於背景活動階段 大於 5分鐘若用戶想 刪除帳戶 、 更改電子郵件地址 和 更改密碼Firebase 會拒絕使用 UpdateEmail 和 UpdatePassword 這類 method於是乎，需要用到 AuthCredential 重新驗證身分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Firebase AuthCredential 重新驗證身分並修改特定資料">
+<meta property="og:url" content="http://howardtseng0828.github.io/2023/05/31/Firebase-Credential/index.html">
+<meta property="og:site_name" content="Howard的程式筆記">
+<meta property="og:description" content="前言 設計開發 APP 時，使用 SharedPreferences 儲存登入狀態資料卻發現在登入後，關閉 APP 或 APP 處於背景活動階段 大於 5分鐘若用戶想 刪除帳戶 、 更改電子郵件地址 和 更改密碼Firebase 會拒絕使用 UpdateEmail 和 UpdatePassword 這類 method於是乎，需要用到 AuthCredential 重新驗證身分">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-05-30T20:41:40.836Z">
+<meta property="article:author" content="HowardTseng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://howardtseng0828.github.io/2023/05/31/Firebase-Credential/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>使用 Firebase AuthCredential 重新驗證身分並修改特定資料 | Howard的程式筆記</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Howard的程式筆記</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>檔案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/HowardTseng0828" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://howardtseng0828.github.io/2023/05/31/Firebase-Credential/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/111320490?v=4">
+      <meta itemprop="name" content="HowardTseng">
+      <meta itemprop="description" content="這是我個人的程式學習記錄，收錄了各種挑戰和解決方案。希望能為我的程式學習之旅增添一些價值！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Howard的程式筆記">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Firebase AuthCredential 重新驗證身分並修改特定資料
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio-JAVA/" itemprop="url" rel="index"><span itemprop="name">Android Studio (JAVA)</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="閱讀次數" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">閱讀次數：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>設計開發 APP 時，使用 SharedPreferences 儲存登入狀態資料<br>卻發現在登入後，關閉 APP 或 APP 處於背景活動階段 <code>大於</code> 5分鐘<br>若用戶想 <code>刪除帳戶</code> 、 <code>更改電子郵件地址</code> 和 <code>更改密碼</code><br>Firebase 會拒絕使用 <code>UpdateEmail</code> 和 <code>UpdatePassword</code> 這類 method<br>於是乎，需要用到 <code>AuthCredential</code> 重新驗證身分</p>
+</blockquote>
+<span id="more"></span>
+<hr>
+<h1 id="AuthCredential-範例"><a href="#AuthCredential-範例" class="headerlink" title="AuthCredential 範例"></a>AuthCredential 範例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">FirebaseUser</span> <span class="variable">user</span> <span class="operator">=</span> FirebaseAuth.getInstance().getCurrentUser();</span><br><span class="line"></span><br><span class="line"><span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">        .getCredential(<span class="string">&quot;user@example.com&quot;</span>, <span class="string">&quot;password1234&quot;</span>);</span><br><span class="line"></span><br><span class="line">user.reauthenticate(credential)</span><br><span class="line">        .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">&quot;User re-authenticated.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>在此範例中，使用字串形式的 <code>user@example.com</code> 和 <code>password1234</code> 來取得 <code>AuthCredential</code>。然而，這種方式的使用受到限制，並不適用於驗證不同的使用者。</p>
+<hr>
+<h1 id="解決辦法與程式碼展示"><a href="#解決辦法與程式碼展示" class="headerlink" title="解決辦法與程式碼展示"></a>解決辦法與程式碼展示</h1><p>以下是我提出的解決方案，並展示了相關的程式碼。</p>
+<h2 id="使用者在修改資料前需輸入目前的密碼"><a href="#使用者在修改資料前需輸入目前的密碼" class="headerlink" title="使用者在修改資料前需輸入目前的密碼"></a>使用者在修改資料前需輸入目前的密碼</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">checkPassword</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">CheckDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line"> CheckDialog.setTitle(<span class="string">&quot;請輸入目前密碼&quot;</span>);</span><br><span class="line">            CheckDialog.setView(checkPassword);</span><br><span class="line">            CheckDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">            	....</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>在此處使用了一個 <code>AlertDialog</code>，使用者可以在對話方塊中輸入目前的密碼，然後按下確定鍵。</p>
+<h2 id="將取得的使用者資料應用於方法中"><a href="#將取得的使用者資料應用於方法中" class="headerlink" title="將取得的使用者資料應用於方法中"></a>將取得的使用者資料應用於方法中</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">	.getCredential(mAuth.getCurrentUser().getEmail(), checkPassword.getText().toString());</span><br><span class="line">mAuth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">	    <span class="keyword">if</span> (task.isSuccessful())&#123;</span><br><span class="line">		...</span><br><span class="line">	    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼輸入錯誤&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">	    &#125;</span><br></pre></td></tr></table></figure>
+<p>email 使用 <code>mAuth.getCurrentUser().getEmail()</code> 取得的使用者<code>目前email</code><br>password 使用 <code>EditText checkPassword</code> 取得的使用者<code>目前password</code><br><code>if (task.isSuccessful())</code> 驗證成功就繼續執行，失敗則顯示密碼輸入錯誤</p>
+<h2 id="使用者輸入新的email"><a href="#使用者輸入新的email" class="headerlink" title="使用者輸入新的email"></a>使用者輸入新的email</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">resetEmail</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ResetDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line">ResetDialog.setTitle(<span class="string">&quot;請輸入新的電子郵件地址?&quot;</span>);</span><br><span class="line">           ResetDialog.setView(resetEmail);</span><br><span class="line">           ResetDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">		....</span><br><span class="line">	   &#125;</span><br></pre></td></tr></table></figure>
+<p>再設置一個對話方塊，取得該對話方塊內的值並且按下確定鍵</p>
+<h2 id="請求重置的最後確認"><a href="#請求重置的最後確認" class="headerlink" title="請求重置的最後確認"></a>請求重置的最後確認</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ConfirmDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line"></span><br><span class="line">ConfirmDialog.setTitle(<span class="string">&quot;確定重置電子郵件地址&quot;</span>);</span><br><span class="line">             ConfirmDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">		...</span><br><span class="line">	     &#125;</span><br></pre></td></tr></table></figure>
+<p>再設置一個對話方塊，確認使用者按下確定鍵</p>
+<h2 id="執行UpdateEmail"><a href="#執行UpdateEmail" class="headerlink" title="執行UpdateEmail"></a>執行UpdateEmail</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">email</span> <span class="operator">=</span> resetEmail.getText().toString();</span><br><span class="line"></span><br><span class="line">mAuth.getCurrentUser().updateEmail(email)</span><br><span class="line">        .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                                                                    </span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">( Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (task.isSuccessful()) &#123;</span><br><span class="line">                    mAuth.getCurrentUser().sendEmailVerification();</span><br><span class="line">                    mAuth.signOut();</span><br><span class="line">                    startActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>(AccountActivity.<span class="built_in">this</span>, LoginActivity.class));</span><br><span class="line">                    finish();</span><br><span class="line">                    Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;更新電子郵件地址成功，請重新登錄&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                 &#125;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="整合上述程式碼"><a href="#整合上述程式碼" class="headerlink" title="整合上述程式碼"></a>整合上述程式碼</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> FirebaseAuth mAuth;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Button updateEmail;</span><br><span class="line"></span><br><span class="line">mAuth = FirebaseAuth.getInstance();</span><br><span class="line"></span><br><span class="line">updateEmail = findViewById(R.id.updateEmail);</span><br><span class="line"></span><br><span class="line">updateEmail.setOnClickListener(view -&gt; &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">checkPassword</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">resetEmail</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EditText</span>(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ResetDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">CheckDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            <span class="keyword">final</span> AlertDialog.<span class="type">Builder</span> <span class="variable">ConfirmDialog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(view.getContext());</span><br><span class="line">            CheckDialog.setTitle(<span class="string">&quot;請輸入目前密碼&quot;</span>);</span><br><span class="line">            CheckDialog.setView(checkPassword);</span><br><span class="line">            CheckDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                    <span class="type">AuthCredential</span> <span class="variable">credential</span> <span class="operator">=</span> EmailAuthProvider</span><br><span class="line">                            .getCredential(mAuth.getCurrentUser().getEmail(), checkPassword.getText().toString());</span><br><span class="line">                    mAuth.getCurrentUser().reauthenticate(credential).addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                            <span class="keyword">if</span> (task.isSuccessful())&#123;</span><br><span class="line">                                ResetDialog.setTitle(<span class="string">&quot;請輸入新的電子郵件地址?&quot;</span>);</span><br><span class="line">                                ResetDialog.setView(resetEmail);</span><br><span class="line">                                ResetDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                            <span class="meta">@Override</span></span><br><span class="line">                                            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                                ConfirmDialog.setTitle(<span class="string">&quot;確定重置電子郵件地址&quot;</span>);</span><br><span class="line">                                                ConfirmDialog.setPositiveButton(<span class="string">&quot;確定&quot;</span>, <span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                                    <span class="meta">@Override</span></span><br><span class="line">                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface arg0, <span class="type">int</span> arg1)</span> &#123;</span><br><span class="line">                                                        <span class="type">String</span> <span class="variable">email</span> <span class="operator">=</span> resetEmail.getText().toString();</span><br><span class="line">                                                        mAuth.getCurrentUser().updateEmail(email)</span><br><span class="line">                                                                .addOnCompleteListener(<span class="keyword">new</span> <span class="title class_">OnCompleteListener</span>&lt;Void&gt;() &#123;</span><br><span class="line">                                                                    <span class="meta">@Override</span></span><br><span class="line">                                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">(<span class="meta">@NonNull</span> Task&lt;Void&gt; task)</span> &#123;</span><br><span class="line">                                                                        <span class="keyword">if</span> (task.isSuccessful()) &#123;</span><br><span class="line">                                                                            mAuth.getCurrentUser().sendEmailVerification();</span><br><span class="line">                                                                            mAuth.signOut();</span><br><span class="line">                                                                            startActivity(<span class="keyword">new</span> <span class="title class_">Intent</span>(AccountActivity.<span class="built_in">this</span>, LoginActivity.class));</span><br><span class="line">                                                                            finish();</span><br><span class="line">                                                                            Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;更新電子郵件地址成功，請重新登錄&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                                                                        &#125;</span><br><span class="line">                                                                    &#125;</span><br><span class="line">                                                                &#125;).addOnFailureListener(<span class="keyword">new</span> <span class="title class_">OnFailureListener</span>() &#123;</span><br><span class="line">                                                                    <span class="meta">@Override</span></span><br><span class="line">                                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onFailure</span><span class="params">(<span class="meta">@NonNull</span> Exception e)</span> &#123;</span><br><span class="line">                                                                        <span class="type">String</span> <span class="variable">errorCode</span> <span class="operator">=</span> ((FirebaseAuthException) task.getException()).getErrorCode();</span><br><span class="line">                                                                        <span class="keyword">switch</span> (errorCode) &#123;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_CUSTOM_TOKEN&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;自定義token不正確。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_CUSTOM_TOKEN_MISMATCH&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;自定義token屬於不同的用戶。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_CREDENTIAL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;提供的身份驗證憑據格式不正確或已過期。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_INVALID_EMAIL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;電子郵件地址格式錯誤。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_WRONG_PASSWORD&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼不正確。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_MISMATCH&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;提供的憑證與先前登錄的用戶不相符。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_REQUIRES_RECENT_LOGIN&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;需要最近的身份驗證。 在重試此請求之前再次登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;已存在具有相同電子郵件地址但登錄憑證不同的帳戶。 使用與此電子郵件地址關聯的提供商登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_EMAIL_ALREADY_IN_USE&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;該電子郵件地址已被另一個帳戶使用。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_CREDENTIAL_ALREADY_IN_USE&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;此憑證已與其他用戶帳戶相關聯。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_DISABLED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;該用戶帳戶已被管理員禁用。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_TOKEN_EXPIRED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;用戶的憑證不再有效。 用戶必須重新登錄。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_USER_NOT_FOUND&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;為查詢到與此對應的用戶記錄， 該用戶可能已被刪除。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_OPERATION_NOT_ALLOWED&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;不允許此操作。 您必須在控制台中啟用此服務。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                            <span class="keyword">case</span> <span class="string">&quot;ERROR_WEAK_PASSWORD&quot;</span>:</span><br><span class="line">                                                                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;輸入的密碼無效。&quot;</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">                                                                                <span class="keyword">break</span>;</span><br><span class="line">                                                                        &#125;</span><br><span class="line">                                                                    &#125;</span><br><span class="line">                                                                &#125;);</span><br><span class="line">                                                    &#125;</span><br><span class="line">                                                &#125;);</span><br><span class="line">                                                ConfirmDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                                    <span class="meta">@Override</span></span><br><span class="line">                                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                                    &#125;</span><br><span class="line">                                                &#125;);</span><br><span class="line">                                                ConfirmDialog.create().show();</span><br><span class="line">                                            &#125;</span><br><span class="line">                                        &#125;);</span><br><span class="line">                                ResetDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                                    <span class="meta">@Override</span></span><br><span class="line">                                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;);</span><br><span class="line">                                ResetDialog.create().show();</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                Toast.makeText(AccountActivity.<span class="built_in">this</span>, <span class="string">&quot;密碼輸入錯誤&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            CheckDialog.setNegativeButton(<span class="string">&quot;取消&quot;</span>,<span class="keyword">new</span> <span class="title class_">DialogInterface</span>.OnClickListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(DialogInterface dialog, <span class="type">int</span> which)</span> &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">           CheckDialog.create().show();</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>作者： </strong>HowardTseng
+  </li>
+  <li class="post-copyright-link">
+    <strong>文章連結：</strong>
+    <a href="http://howardtseng0828.github.io/2023/05/31/Firebase-Credential/" title="使用 Firebase AuthCredential 重新驗證身分並修改特定資料">http://howardtseng0828.github.io/2023/05/31/Firebase-Credential/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/31/Hexo-Github/" rel="next" title="使用 Hexo + GitHub Pages 架設 Blog">
+      使用 Hexo + GitHub Pages 架設 Blog <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AuthCredential-%E7%AF%84%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">AuthCredential 範例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E6%B1%BA%E8%BE%A6%E6%B3%95%E8%88%87%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%B1%95%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">解決辦法與程式碼展示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E5%9C%A8%E4%BF%AE%E6%94%B9%E8%B3%87%E6%96%99%E5%89%8D%E9%9C%80%E8%BC%B8%E5%85%A5%E7%9B%AE%E5%89%8D%E7%9A%84%E5%AF%86%E7%A2%BC"><span class="nav-number">3.1.</span> <span class="nav-text">使用者在修改資料前需輸入目前的密碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%87%E5%8F%96%E5%BE%97%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E6%96%BC%E6%96%B9%E6%B3%95%E4%B8%AD"><span class="nav-number">3.2.</span> <span class="nav-text">將取得的使用者資料應用於方法中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E8%BC%B8%E5%85%A5%E6%96%B0%E7%9A%84email"><span class="nav-number">3.3.</span> <span class="nav-text">使用者輸入新的email</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%8B%E6%B1%82%E9%87%8D%E7%BD%AE%E7%9A%84%E6%9C%80%E5%BE%8C%E7%A2%BA%E8%AA%8D"><span class="nav-number">3.4.</span> <span class="nav-text">請求重置的最後確認</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8CUpdateEmail"><span class="nav-number">3.5.</span> <span class="nav-text">執行UpdateEmail</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E5%90%88%E4%B8%8A%E8%BF%B0%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">4.</span> <span class="nav-text">整合上述程式碼</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HowardTseng"
+      src="https://avatars.githubusercontent.com/u/111320490?v=4">
+  <p class="site-author-name" itemprop="name">HowardTseng</p>
+  <div class="site-description" itemprop="description">這是我個人的程式學習記錄，收錄了各種挑戰和解決方案。希望能為我的程式學習之旅增添一些價值！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HowardTseng0828" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HowardTseng0828" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HowardTseng</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 提供
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="訪客總數">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="總瀏覽次數">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
